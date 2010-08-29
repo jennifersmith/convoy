@@ -1,4 +1,4 @@
-Ext.ns('Geo', 'Geo.views', 'Geo.cache', 'Geo.stores');
+Ext.ns('Geo', 'Convoy.views', 'Convoy.cache', 'Convoy.stores');
 
 Ext.setup({
     phoneStartupScreen: 'startup.png',
@@ -6,7 +6,7 @@ Ext.setup({
     glossOnIcon: false,
     
     onReady: function() {
-        var app = new Geo.App();
+        var app = new Convoy.App();
     }
 });
 

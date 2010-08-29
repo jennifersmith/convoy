@@ -1,4 +1,4 @@
-Geo.views.StartScreen = Ext.extend(Ext.Panel, {
+Convoy.views.StartScreen = Ext.extend(Ext.Panel, {
     cls: 'start-screen',
     layout: 'card',
     activeItem: 0,
@@ -28,7 +28,7 @@ Geo.views.StartScreen = Ext.extend(Ext.Panel, {
             items: [this.settingsIcon,{flex: 1},this.refreshIcon]
         });
         this.dockedItems = [this.toolbar];
-//        this.list = new Geo.views.LegislatorList({
+//        this.list = new Convoy.views.LegislatorList({
 //            scroll: false
 //        });
 
@@ -47,9 +47,9 @@ Geo.views.StartScreen = Ext.extend(Ext.Panel, {
             scroll: true,
             items: [startButton]
         });
-        //this.form = new Geo.views.DistrictInfo();
+        //this.form = new Convoy.views.DistrictInfo();
         this.items = [this.main];//, this.form];
-        Geo.views.StartScreen.superclass.initComponent.call(this);
+        Convoy.views.StartScreen.superclass.initComponent.call(this);
         //this.form.on('lookupDistrict', this.onFormLookup, this);
         //this.list.on('itemtap', this.onListItemTap, this);
         
@@ -77,11 +77,11 @@ Geo.views.StartScreen = Ext.extend(Ext.Panel, {
         this.settingsIcon.setDisabled(false);
         this.refreshIcon.setDisabled(false);
 
-        Geo.CongressService.getLegislatorsByDistrict(district, this.loadLegislatorStore, this);
+        Convoy.CongressService.getLegislatorsByDistrict(district, this.loadLegislatorStore, this);
     },
     
     onGeoUpdate: function(coords) {
-        Geo.CongressService.getDistrictFromCoords(coords, this.updateDistrict, this);
+        Convoy.CongressService.getDistrictFromCoords(coords, this.updateDistrict, this);
     },
     
     onBeforeGeoUpdate: function(){
@@ -90,7 +90,7 @@ Geo.views.StartScreen = Ext.extend(Ext.Panel, {
     },
     
     loadLegislatorStore: function(legislators) {
-        Geo.stores.Legislators.loadData(legislators);
+        Convoy.stores.Legislators.loadData(legislators);
         // needed to paint the initial list on iPad.
         Ext.repaint();
     },
