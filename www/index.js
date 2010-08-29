@@ -1,4 +1,4 @@
-Ext.ns('Geo', 'Convoy.views', 'Convoy.cache', 'Convoy.stores');
+Ext.ns('Convoy', 'Convoy.views', 'Convoy.cache', 'Convoy.stores');
 
 Ext.setup({
     phoneStartupScreen: 'startup.png',

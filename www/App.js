@@ -1,5 +1,5 @@
-Geo.defaultAnim = Ext.platform.isAndroidOS ? false : 'slide';
-Geo.App = Ext.extend(Ext.Panel, {
+Convoy.defaultAnim = Ext.platform.isAndroidOS ? false : 'slide';
+Convoy.App = Ext.extend(Ext.Panel, {
     cls: 'app',
     fullscreen: true,
     layout: 'card',
@@ -7,7 +7,7 @@ Geo.App = Ext.extend(Ext.Panel, {
     
     initComponent: function() {
         var that = this;
-        this.startScreen = new Geo.views.StartScreen({
+        this.startScreen = new Convoy.views.StartScreen({
             flex: 1,
             startNewGame:function(){
                 that.startNewGame();
@@ -23,22 +23,22 @@ Geo.App = Ext.extend(Ext.Panel, {
             },
             items: [this.startScreen]
         });
-        //this.detail = new Geo.views.LegislatorDetails();
+        //this.detail = new Convoy.views.LegislatorDetails();
 
         this.items = [this.splash];//, this.detail];
-        Geo.App.superclass.initComponent.call(this);
+        Convoy.App.superclass.initComponent.call(this);
         
         this.startScreen.on('startNewGame', this.startNewGame, this);
     },
     
     afterRender: function() {
-        Geo.App.superclass.afterRender.apply(this, arguments);
+        Convoy.App.superclass.afterRender.apply(this, arguments);
         //Ext.getBody().on(Ext.isChrome ? 'click' : 'tap', this.onLinkTap, this, {delegate: 'a.goOutside'});
     },
     
     onLinkTap: function(e, t) {        
         e.stopEvent();
-        Geo.Util.openUrl(t.href);
+        Convoy.Util.openUrl(t.href);
     },
     startNewGame : function(){
         alert("OK let's start a new game");
