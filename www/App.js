@@ -13,22 +13,15 @@ Convoy.App = Ext.extend(Ext.Panel, {
                 that.startNewGame();
             }
         });
-
-        this.splash = new Ext.Container({
-            cls: 'splash',
-            layout: {
-                type: 'vbox',
-                align: 'stretch',
-                pack: 'end'
-            },
-            items: [this.startScreen]
+        this.locationSelectScreen = new Convoy.views.LocationSelectScreen({
+            flex: 1
         });
+
         //this.detail = new Convoy.views.LegislatorDetails();
 
-        this.items = [this.splash];//, this.detail];
+        this.items = [this.startScreen, this.locationSelectScreen];
         Convoy.App.superclass.initComponent.call(this);
         
-        this.startScreen.on('startNewGame', this.startNewGame, this);
     },
     
     afterRender: function() {
@@ -42,6 +35,7 @@ Convoy.App = Ext.extend(Ext.Panel, {
     },
     startNewGame : function(){
         alert("OK let's start a new game");
+		this.setCard(1);
     }
     
     
