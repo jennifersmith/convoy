@@ -9,7 +9,7 @@ Convoy.views.StartScreen = Ext.extend(Ext.Panel, {
             text:"Start a new game",
             ui:'Round',
             baseCls: "x-button start-button",
-            handler:this.startNewGame
+            handler:this.nextScreen
         });
         
         this.main = new Ext.Container({

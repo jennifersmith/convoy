@@ -9,12 +9,15 @@ Convoy.App = Ext.extend(Ext.Panel, {
         var that = this;
         this.startScreen = new Convoy.views.StartScreen({
             flex: 1,
-            startNewGame:function(){
-                that.startNewGame();
+            nextScreen:function(){
+				that.setCard(1);
             }
         });
         this.locationSelectScreen = new Convoy.views.LocationSelectScreen({
-            flex: 1
+           
+            nextScreen:function(){
+				alert ("START THE GAME");
+            }
         });
 
         //this.detail = new Convoy.views.LegislatorDetails();
@@ -32,10 +35,6 @@ Convoy.App = Ext.extend(Ext.Panel, {
     onLinkTap: function(e, t) {        
         e.stopEvent();
         Convoy.Util.openUrl(t.href);
-    },
-    startNewGame : function(){
-        alert("OK let's start a new game");
-		this.setCard(1);
     }
     
     
