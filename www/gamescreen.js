@@ -21,27 +21,33 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
         });
 		this.items = [mainPanel, rightPanel];
         Convoy.views.StartScreen.superclass.initComponent.call(this);
+        Trucks.get(function(trucks){
+            for(var i = 0; i < trucks.length; i++){
+                mainPanel.addItem(trucks[i]);
+                
+            }
+        });
 	}
 });
 
 Convoy.views.MainPanel = Ext.extend(Ext.Panel,{
     defaults:{
         height:200,
-        width:320 
+        width:320 ,
+        baseCls: "item-box",
+        xtype : "panel"
     },
     layout: 'hbox',
     layoutConfig: {
-        align : 'stretch',
-        pack  : 'center'
+        align: 'top'
     },
-items: [
-    {html:'1,1',  x:20, y:10},
-    {html:'1,2 '},
-    {html:'1,3'},
-    {html:'2,2'},
-    {html:'3,2'},
-    {html:'3,3'}
-],
     initComponent: function() {
         Convoy.views.MainPanel.superclass.initComponent.call(this);
-	} });
+	},
+    addItem:function(item){
+      this.add({html:item.name});
+      this.doLayout();   
+    }
+  }
+
+);

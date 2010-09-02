@@ -80,7 +80,7 @@ Convoy.views.LocationSelectScreen = Ext.extend(Ext.Panel, {
 	onNextButtonClicked: function(){
 		var locations = {
 			start: this.startMarker.getLocation(),
-			end: this.endMarker.getLocation(),
+			end: this.endMarker.getLocation()
 		};
 		this.nextScreen(locations);
 		

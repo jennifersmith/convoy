@@ -8217,6 +8217,7 @@ Ext.util.JSONP = {
             params: params || null
         });
 
+
         if (!this.current) {
             this.next();
         }
