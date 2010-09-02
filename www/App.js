@@ -3,7 +3,7 @@ Convoy.App = Ext.extend(Ext.Panel, {
     cls: 'app',
     fullscreen: true,
     layout: 'card',
-    activeItem: 0,
+    activeItem: 1,
     
     initComponent: function() {
         var that = this;
@@ -13,19 +13,13 @@ Convoy.App = Ext.extend(Ext.Panel, {
 				that.setCard(1);
             }
         });
-        this.locationSelectScreen = new Convoy.views.LocationSelectScreen({
-           
-            nextScreen:function(){
-				that.setCard(2);
-            }
-        });
 	        this.gameScreen = new Convoy.views.GameScreen({
 					flex: 1
 	        });
 
         //this.detail = new Convoy.views.LegislatorDetails();
 
-        this.items = [this.startScreen, this.locationSelectScreen, this.gameScreen];
+        this.items = [this.startScreen,  this.gameScreen];
         Convoy.App.superclass.initComponent.call(this);
         
     },

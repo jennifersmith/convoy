@@ -1847,7 +1847,6 @@ form.x-panel .x-panel-body .x-form-fieldset .x-panel-body {
 
 
 .app {
-    background: #092542 url("../images/stobart.jpg");
 background-repeat: no-repeat;
 background-position: center top;
 background-size: 500px 200px;
@@ -1858,6 +1857,7 @@ background-size: 500px 200px;
 }
 
 .screen {
+    background: #092542 url("../images/stobart.jpg");
     background-color: #ccc;
     margin-top: 115px
 }
@@ -1868,4 +1868,8 @@ background-size: 500px 200px;
 {
 	color:white;
 	margin-right: 0.3em;
+}
+
+.game-panel{
+    border:1px black solid;
 }

@@ -1,19 +1,21 @@
 Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
-    cls: 'screen',
+    cls: 'game-screen',
     layout: 'card',
 
     activeItem: 0,
     initComponent: function() {
 		var rootPanel = new Ext.Panel({
-			layout:'vbox',
+			layout:'hbox',
+            defaults: {
+                cls:'game-panel'
+            },
 			layoutConfig: {
 			    align : 'stretch',
-			    pack  : 'start',
+			    pack  : 'start'
 			},
 			items: [
-			    {html:'panel 1', flex:1},
-			    {html:'panel 2', height:"75%"},
-			    {html:'panel 3', flex:2}
+			    {html:'main game bit', width:"75%", height:"100%"},
+			    {html:'other bits', height:"100%", width:"25%"}
 			]
 		});
 		this.dockedItems = [];
