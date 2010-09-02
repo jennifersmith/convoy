@@ -16,13 +16,16 @@ Convoy.App = Ext.extend(Ext.Panel, {
         this.locationSelectScreen = new Convoy.views.LocationSelectScreen({
            
             nextScreen:function(){
-				alert ("START THE GAME");
+				that.setCard(2);
             }
         });
+	        this.gameScreen = new Convoy.views.GameScreen({
+					flex: 1
+	        });
 
         //this.detail = new Convoy.views.LegislatorDetails();
 
-        this.items = [this.startScreen, this.locationSelectScreen];
+        this.items = [this.startScreen, this.locationSelectScreen, this.gameScreen];
         Convoy.App.superclass.initComponent.call(this);
         
     },

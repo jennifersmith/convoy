@@ -12,14 +12,6 @@ Convoy.views.LocationSelectScreen = Ext.extend(Ext.Panel, {
   		//     }]
   		// });
 		
-		var secondPanel = new Ext.Panel({
-			height: 10,
-			items: [ new Ext.Button({text: 'bar'})]
-		});
-			var secondPanel2 = new Ext.Panel({
-				height: 10,
-				items: [ new Ext.Button({text: 'baz'})]
-			});
 	  
 		this.map = new Ext.Map({
 				mapOptions:{
