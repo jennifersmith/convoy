@@ -17168,6 +17168,7 @@ Ext.data.ScriptTagProxy = Ext.extend(Ext.data.ServerProxy, {
      * @param {Object} scope The scope to execute the callback in
      */
     doRequest: function(operation, callback, scope) {
+        
         //generate the unique IDs for this request
         var format     = String.format,
             transId    = ++Ext.data.ScriptTagProxy.TRANS_ID,
@@ -17228,7 +17229,7 @@ Ext.data.ScriptTagProxy = Ext.extend(Ext.data.ServerProxy, {
      */
     createRequestCallback: function(request, operation, callback, scope) {
         var me = this;
-        
+
         return function(response) {
             var reader = me.getReader(),
                 result = reader.read(response);

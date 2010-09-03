@@ -1876,4 +1876,18 @@ background-size: 500px 200px;
 
 .item-box{
     border: 1px green solid;
+    background-repeat:no-repeat;
+    width: 300px;
+    height: 200px;
+    float:left;
+}
+.item-box.x-item-pressed{
+    background-color: rgba(100, 100, 100, 0.7);
+    border-color: #999;
+
+}
+.item-box.x-view-over{
+    background-color: rgba(100, 100, 100, 0.2);
+    border-color: #999;
+
 }

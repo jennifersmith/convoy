@@ -2,19 +2,19 @@ require 'rubygems'
 require 'sinatra'
 require 'json'
 
-def create_item name
-    {:name => name}
+def create_item name, image
+    {:name => name,:imagePath=>image}
 end
 
 def create_items
     result = [
-        create_item("foo"),
-        create_item("bar"),
-        create_item("baz"),
-        create_item("john"),
-        create_item("paul"),
-        create_item("george"),
-        create_item("ringo")
+        create_item("foo", "images/redcar.png"),
+        create_item("bar","images/redcar.png"),
+        create_item("baz","images/redcar.png"),
+        create_item("john","images/redcar.png"),
+        create_item("paul","images/redcar.png"),
+        create_item("george","images/redcar.png"),
+        create_item("ringo","images/redcar.png")
         ];
 end
 
