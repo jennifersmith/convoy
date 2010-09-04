@@ -12,8 +12,11 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
 
         var tpl = new Ext.XTemplate(
             '<tpl for=".">',
-                '<div class="item-box"  >',
-                        '<div style=" background-image:url({imagePath})"><p>{name}</p></div>',
+                '<div class="item-box" id="{id}"  >',
+                        '<div style=" background-image:url({imagePath})">' ,
+                '<p class="name">{name}</p>' ,
+                '<p class="score">{score}</p>' ,
+                         '</div>',
                 '</div>',
             '</tpl>',
             '<div class="x-clear"></div>'
@@ -51,9 +54,45 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
         this.store.load();
 
 
-	}     ,
+	} ,
     itemTapped: function(dataView, index, item, e){
-        alert("you just clicked on " + item["id"]);
-        
+        var playerSelect = new Convoy.views.PlayerSelect({
+            itemSpotted: this.store.getById(item["id"])
+        });
+        playerSelect.show('pop');
     }
+});
+
+Convoy.views.PlayerSelect = Ext.extend(Ext.Panel,{
+        floating: true,
+        modal: true,
+        centered: true,
+        width: 320,
+        cls: 'player-select',
+        height: 300,
+        styleHtmlContent: true,
+        html: '',
+        dockedItems: [{
+            dock: 'top',
+            xtype: 'toolbar',
+            title: 'Player select'
+        }],
+        scroll: 'vertical',
+        initComponent: function() {
+            glob = this.itemSpotted;
+            var tpl = new Ext.XTemplate(
+            '<tpl for=".">',
+                '<div class="item-box-small" >',
+                        '<div style=" background-image:url({imagePath})">' ,
+                '<p class="name">{name}</p>' ,
+                '<p class="score">{score}</p>' ,
+                         '</div>',
+                '</div>',
+            '</tpl>',
+            '<div class="x-clear"></div>'
+            );
+            this.items =[{xtype:"panel", tpl: tpl, data: this.itemSpotted.data}] ;
+
+            Convoy.views.PlayerSelect.superclass.initComponent.call(this);
+        }
 });

@@ -1898,3 +1898,11 @@ background-size: 500px 200px;
     background:white;
     border: 1px black solid;
 }
+
+.item-box-small div{
+    background-repeat:no-repeat;
+    background-position: center;
+    width: 150px;
+    height: 150px;
+    
+}

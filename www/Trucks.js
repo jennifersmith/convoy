@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-var offline = true;
+var offline = false;
 Convoy.Urls = function(loadLocalhostUrls){
     function url(path){
         if(loadLocalhostUrls){
@@ -36,7 +36,9 @@ Trucks = {
 Ext.regModel('Truck', {
     fields: [
         {name: 'name',  type: 'string'},
-        {name: 'imagePath',  type: 'string'}
+        {name: 'imagePath',  type: 'string'},
+        {name: 'id',  type: 'string'},
+        {name: 'score',  type: 'integer'}
     ],
 
     changeName: function() {
