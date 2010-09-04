@@ -10,17 +10,7 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
     },
     initComponent: function() {
 
-        var tpl = new Ext.XTemplate(
-            '<tpl for=".">',
-                '<div class="item-box" id="{id}"  >',
-                        '<div style=" background-image:url({imagePath})">' ,
-                '<p class="name">{name}</p>' ,
-                '<p class="score">{score}</p>' ,
-                         '</div>',
-                '</div>',
-            '</tpl>',
-            '<div class="x-clear"></div>'
-        );
+        var tpl = Convoy.templates.itemBox;
         this.store = Convoy.CreateTrucksReader();
 
 
@@ -72,25 +62,25 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel,{
         height: 300,
         styleHtmlContent: true,
         html: '',
-        dockedItems: [{
-            dock: 'top',
-            xtype: 'toolbar',
-            title: 'Player select'
-        }],
         scroll: 'vertical',
         initComponent: function() {
-            glob = this.itemSpotted;
-            var tpl = new Ext.XTemplate(
-            '<tpl for=".">',
-                '<div class="item-box-small" >',
-                        '<div style=" background-image:url({imagePath})">' ,
-                '<p class="name">{name}</p>' ,
-                '<p class="score">{score}</p>' ,
-                         '</div>',
-                '</div>',
-            '</tpl>',
-            '<div class="x-clear"></div>'
-            );
+            var that = this;
+            var toolbar = {
+            dock: 'top',
+            xtype: 'toolbar',
+            title: 'Player select',
+            items: [{
+                iconCls: 'delete',
+                ui: "mask",
+                id:'delete-button' ,
+                handler: function(){
+                    that.hide();   
+                }
+                }]};
+
+            this.dockedItems = [toolbar];
+
+            var tpl = Convoy.templates.itemBoxOnPlayerSelect;
             this.items =[{xtype:"panel", tpl: tpl, data: this.itemSpotted.data}] ;
 
             Convoy.views.PlayerSelect.superclass.initComponent.call(this);

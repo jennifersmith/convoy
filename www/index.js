@@ -1,4 +1,4 @@
-Ext.ns('Convoy', 'Convoy.views', 'Convoy.cache', 'Convoy.stores');
+Ext.ns('Convoy', 'Convoy.views', 'Convoy.cache', 'Convoy.stores', 'Convoy.templates');
 
 Ext.setup({
     phoneStartupScreen: 'startup.png',

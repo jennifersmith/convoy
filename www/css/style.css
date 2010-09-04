@@ -1902,7 +1902,6 @@ background-size: 500px 200px;
 .item-box-small div{
     background-repeat:no-repeat;
     background-position: center;
-    width: 150px;
-    height: 150px;
+    height: 50px;
     
 }
