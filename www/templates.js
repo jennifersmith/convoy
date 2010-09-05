@@ -25,3 +25,7 @@ Convoy.templates.itemBoxOnPlayerSelect=new Ext.XTemplate(
             '</tpl>',
             '<div class="x-clear"></div>'
             );
+
+Convoy.templates.playerSelectListItem=new Ext.XTemplate(
+            '<tpl for="."><div class="player"><strong>{name}</strong></div></tpl>'
+            );

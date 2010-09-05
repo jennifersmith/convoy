@@ -5,11 +5,9 @@ Ext.regModel('Player', {
         {name: 'currentScore',  type: 'integer'}
     ],
 
-    changeName: function() {
-        var oldName = this.get('name'),
-            newName = oldName + " The Barbarian";
-
-        this.set('name', newName);
+    addToScore: function(score) {
+        var currentScore = this.get('currentScore');
+        this.set('currentScore', currentScore + score);
     }
 });
 
