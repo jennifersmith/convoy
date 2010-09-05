@@ -1,6 +1,6 @@
 Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
     cls: 'game-screen',
-    layout: 'hbox',
+    layout: 'card',
     defaults: {
             cls:'game-panel',
             height:"100%"
@@ -11,11 +11,20 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
     initComponent: function() {
 
         var tpl = Convoy.templates.itemBox;
-        this.store = Convoy.CreateTrucksReader();
+        this.trucksStore = Convoy.CreateTrucksStore();
+        this.playersStore = Convoy.CreatePlayersStore();
+
+        this.playersStore.load();
 
 
+        var that = this;
+
+        var bottomToolbar = new Convoy.views.GameScreenBottomBar({
+            playersStore : this.playersStore
+        });
+        
         var dataView = new Ext.DataView({
-            store: this.store,
+            trucksStore: this.trucksStore,
             tpl: tpl,
             overClass:'x-view-over',
             itemSelector:'div.item-box',
@@ -28,7 +37,6 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
             id:'main-view',
             width: '75%',
 
-
             items: dataView
         });
 
@@ -38,16 +46,17 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
             items:[panel]
         });
 		this.items =[panel, rightPanel];
+        this.dockedItems = [bottomToolbar];
 
         Convoy.views.StartScreen.superclass.initComponent.call(this);
         dataView.on("itemtap", this.itemTapped, this);
-        this.store.load();
+        this.trucksStore.load();
 
 
 	} ,
     itemTapped: function(dataView, index, item, e){
         var playerSelect = new Convoy.views.PlayerSelect({
-            itemSpotted: this.store.getById(item["id"])
+            itemSpotted: this.trucksStore.getById(item["id"])
         });
         playerSelect.show('pop');
     }
@@ -85,4 +94,37 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel,{
 
             Convoy.views.PlayerSelect.superclass.initComponent.call(this);
         }
+});
+
+Convoy.views.GameScreenBottomBar = Ext.extend(Ext.Toolbar,
+{
+        dock: 'bottom',
+        xtype: 'toolbar',
+        title: 'CONVOY!',
+        items: [{
+            iconCls: 'bolt',
+            ui:"mask"
+        }],
+    initComponent: function(){
+        var that = this;
+        this.items[0].handler = function(){
+            that.loadPlayers();
+        };
+        Convoy.views.GameScreenBottomBar.superclass.initComponent.call(this);
+
+    },
+
+    loadPlayers: function(){
+
+       if(confirm("start new?")){
+
+           this.playersStore.proxy.clear();
+           this.playersStore.add({name:"fred", id:"fred", currentScore: 0});
+           this.playersStore.add({name:"bob", id:"bob", currentScore: 0});
+           this.playersStore.add({name:"joe", id:"joe", currentScore: 0});
+           this.playersStore.add({name:"freda", id:"freda", currentScore: 0});
+           this.playersStore.sync();
+       }
+
+    }
 });

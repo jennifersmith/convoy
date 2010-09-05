@@ -13564,7 +13564,7 @@ Ext.data.Model.id(rec); // automatically generate a unique sequential id
          * @property store
          * @type {Ext.data.Store}
          */
-        this.store = store;
+        this.trucksStore = store;
     },
     
     /**
@@ -13572,7 +13572,7 @@ Ext.data.Model.id(rec); // automatically generate a unique sequential id
      * @param {Ext.data.Store} store The store to unjoin
      */
     unjoin: function(store) {
-        delete this.store;
+        delete this.trucksStore;
     },
     
     /**
@@ -13610,7 +13610,7 @@ Ext.data.Model.id(rec); // automatically generate a unique sequential id
      * @param {String} fn The function to call on the store
      */
     callStore: function(fn) {
-        var store = this.store;
+        var store = this.trucksStore;
         
         if (store != undefined && typeof store[fn] == "function") {
             store[fn](this);
@@ -17426,7 +17426,7 @@ Ext.data.WebStorageProxy = Ext.extend(Ext.data.ClientProxy, {
         }
         
         //if an id is not given, try to use the store's id instead
-        this.id = this.id || (this.store ? this.store.storeId : undefined);
+        this.id = this.id || (this.trucksStore ? this.trucksStore.storeId : undefined);
         
         if (this.id == undefined) {
             throw new Error("No unique id was provided to the local storage proxy. See Ext.data.LocalStorageProxy documentation for details");
@@ -22164,7 +22164,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
             this.tpl = new Ext.XTemplate(this.tpl);
         }
 
-        this.store = Ext.StoreMgr.lookup(this.store);
+        this.trucksStore = Ext.StoreMgr.lookup(this.trucksStore);
         this.all = new Ext.CompositeElementLite();
         this.instances = new Ext.util.MixedCollection();
 
@@ -22203,8 +22203,8 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
             }
         }
         
-        if (this.store) {
-            this.bindStore(this.store, true);
+        if (this.trucksStore) {
+            this.bindStore(this.trucksStore, true);
         }
     },
 
@@ -22213,7 +22213,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
      * @return {Ext.data.Store} The store
      */
     getStore: function(){
-        return this.store;
+        return this.trucksStore;
     },
 
     /**
@@ -22225,7 +22225,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
         }
 
         var el = this.getTemplateTarget(),
-            records = this.store.getRange();
+            records = this.trucksStore.getRange();
 
         if (records.length < 1) {
             this.all.clear();
@@ -22285,16 +22285,16 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
      */
     bindStore: function(store, initial) {
         if (!this.rendered) {
-            this.store = store;
+            this.trucksStore = store;
             return;
         }
 
-        if (!initial && this.store) {
-            if (store !== this.store && this.store.autoDestroy) {
-                this.store.destroyStore();
+        if (!initial && this.trucksStore) {
+            if (store !== this.trucksStore && this.trucksStore.autoDestroy) {
+                this.trucksStore.destroyStore();
             }
             else {
-                this.store.un({
+                this.trucksStore.un({
                     scope: this,
                     beforeload: this.onBeforeLoad,
                     datachanged: this.onDataChanged,
@@ -22305,7 +22305,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
                 });
             }
             if (!store) {
-                this.store = null;
+                this.trucksStore = null;
             }
         }
         if (store) {
@@ -22320,7 +22320,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
                 clear: this.refresh
             });
         }
-        this.store = store;
+        this.trucksStore = store;
         if (store) {
             this.refresh();
         }
@@ -22337,7 +22337,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
 
     // @private
     onUpdate: function(ds, record) {
-        var index = this.store.indexOf(record),
+        var index = this.trucksStore.indexOf(record),
             sel, original, node;
         
         if (index > -1) {
@@ -22377,7 +22377,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
         this.deselect(index);
         this.all.removeElement(index, true);
         this.updateItems(index);
-        if (this.store.getCount() === 0){
+        if (this.trucksStore.getCount() === 0){
             this.refresh();
         }
     },
@@ -22387,7 +22387,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
      * @param {Number} index The item's data index in the store
      */
     refreshNode: function(index){
-        this.onUpdate(this.store, this.store.getAt(index));
+        this.onUpdate(this.trucksStore, this.trucksStore.getAt(index));
     },
 
     // @private
@@ -22469,7 +22469,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
             len = s.length,
             i;
         for (i = 0; i < len; i++) {
-            r[r.length] = this.store.getAt(s[i].viewIndex);
+            r[r.length] = this.trucksStore.getAt(s[i].viewIndex);
         }
         return r;
     },
@@ -22480,7 +22480,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
      * @return {Record} record The {@link Ext.data.Model} object
      */
     getRecord: function(node) {
-        return this.store.getAt(node.viewIndex);
+        return this.trucksStore.getAt(node.viewIndex);
     },
 
     /**
@@ -22497,7 +22497,7 @@ Ext.DataPanel = Ext.extend(Ext.Panel, {
             return this.all.elements[nodeInfo];
         }
         else if (nodeInfo instanceof Ext.data.Model) {
-            var idx = this.store.indexOf(nodeInfo);
+            var idx = this.trucksStore.indexOf(nodeInfo);
             return this.all.elements[idx];
         }
         return nodeInfo;
@@ -22739,7 +22739,7 @@ Ext.DataView = Ext.extend(Ext.DataPanel, {
         el.update('');
 
         this.clearSelections(false, true);
-        if (this.store.getRange().length < 1 && (!this.deferEmptyText || this.hasSkippedEmptyText)) {
+        if (this.trucksStore.getRange().length < 1 && (!this.deferEmptyText || this.hasSkippedEmptyText)) {
             el.update(this.emptyText);
         }
         this.hasSkippedEmptyText = true;
@@ -22891,7 +22891,7 @@ Ext.DataView = Ext.extend(Ext.DataPanel, {
             len = s.length,
             i;
         for (i = 0; i < len; i++) {
-            r[r.length] = this.store.getAt(s[i].viewIndex);
+            r[r.length] = this.trucksStore.getAt(s[i].viewIndex);
         }
         return r;
     },
@@ -23361,7 +23361,7 @@ Ext.List = Ext.extend(Ext.DataView, {
     // @private
     onIndex : function(record, target, index) {
         var key = record.get('key').toLowerCase(),
-            groups = this.store.getGroups(),
+            groups = this.trucksStore.getGroups(),
             ln = groups.length,
             group, i, closest, id;
 
@@ -23391,14 +23391,14 @@ Ext.List = Ext.extend(Ext.DataView, {
     // @private
     collectData : function(records, startIndex) {
         // true to suppress event
-        this.store.sort(null, null, true);
+        this.trucksStore.sort(null, null, true);
 
         if (!this.grouped) {
             return Ext.List.superclass.collectData.call(this, records, startIndex);
         }
 
         var results = [],
-            groups = this.store.getGroups(),
+            groups = this.trucksStore.getGroups(),
             ln = groups.length,
             children, cln, c,
             group, i;
@@ -23471,8 +23471,8 @@ Ext.IndexBar = Ext.extend(Ext.DataPanel, {
         // No docking and no sizing of body!
         this.componentLayout = new Ext.layout.AutoComponentLayout();
 
-        if (!this.store) {
-            this.store = new Ext.data.Store({
+        if (!this.trucksStore) {
+            this.trucksStore = new Ext.data.Store({
                 model: 'IndexBarModel'
             });
         }
@@ -23521,7 +23521,7 @@ Ext.IndexBar = Ext.extend(Ext.DataPanel, {
             data.push({key: letter.toLowerCase(), value: letter});
         }
 
-        this.store.loadData(data);
+        this.trucksStore.loadData(data);
     },
 
     // @private
@@ -25021,7 +25021,7 @@ Ext.Picker = Ext.extend(Ext.Panel, {
                     }
                 },
                 tpl: '<ul class="x-picker-{align}"><tpl for="."><li class="x-picker-item {cls} <tpl if="extra">x-picker-invalid</tpl>">{' + this.displayField + '}</li></tpl></ul>',
-                store: new Ext.data.Store({
+                trucksStore: new Ext.data.Store({
                     model: this.model,
                     data: slot.items
                 })
@@ -25178,7 +25178,7 @@ Ext.Picker = Ext.extend(Ext.Panel, {
         loopTo = Math.floor(innerHeight/ this.rowHeight);
         for (i = 0; i < slotsLn; i++) {
             slot = this.slots[i];
-            var ds = this.items.itemAt(i).store;
+            var ds = this.items.itemAt(i).trucksStore;
 
             slotItems = slot.items;
             for (j = 0; j < loopTo; j++) {
@@ -25220,8 +25220,8 @@ Ext.Picker = Ext.extend(Ext.Panel, {
             value = this.value[this.slots[i].name];
             if (value) {
                 dv = items.itemAt(i);
-                var idx = dv.store.find(this.valueField, value),
-                    r = dv.store.getAt(idx),
+                var idx = dv.trucksStore.find(this.valueField, value),
+                    r = dv.trucksStore.getAt(idx),
                     n = dv.getNode(r);
 
                 this.scrollToNode(dv, n, animate);
@@ -25378,8 +25378,8 @@ Ext.DatePicker = Ext.extend(Ext.Picker, {
         } else {
             day = daysInMonth;
             var dv = this.items.itemAt(1),
-                idx = dv.store.find(this.valueField, daysInMonth),
-                r = dv.store.getAt(idx),
+                idx = dv.trucksStore.find(this.valueField, daysInMonth),
+                r = dv.trucksStore.getAt(idx),
                 n = dv.getNode(r);
             this.scrollToNode(dv, n);
         }
@@ -25390,7 +25390,7 @@ Ext.DatePicker = Ext.extend(Ext.Picker, {
     onPick: function(picker, name, value, r) {
         if (name === "month" || name === "year") {
             var dayView = this.items.itemAt(1);
-            var store = dayView.store;
+            var store = dayView.trucksStore;
             var date = this.getValue();
             var daysInMonth = this.getDaysInMonth(date.getMonth(), date.getFullYear());
             store.filter([{
@@ -27667,8 +27667,8 @@ Ext.form.Select = Ext.extend(Ext.form.Field, {
             this.setOptions();
         }
         else {
-	        var store = this.store || {};
-	        delete this.store;
+	        var store = this.trucksStore || {};
+	        delete this.trucksStore;
             //load the options immediately if the store has contents
 	        this.bindStore(store, store.getCount && store.getCount()>0);
         }
@@ -27734,7 +27734,7 @@ selectBox.setOptions(
      * @return {Ext.data.Store} The store
      */
     getStore : function() {
-        return this.store;
+        return this.trucksStore;
     },
     
     bindStore : function(store, loadImmediate) {
@@ -27744,12 +27744,12 @@ selectBox.setOptions(
               scope : me
             };
 
-        if (me.store) {
-            me.store.un(listen);
-            me.store = null;
+        if (me.trucksStore) {
+            me.trucksStore.un(listen);
+            me.trucksStore = null;
         }
         if (store && store.getRange) {
-            me.store = store;
+            me.trucksStore = store;
             store.on(listen);
             if (loadImmediate) {
                 me.onDataChanged(store);
@@ -27760,7 +27760,7 @@ selectBox.setOptions(
     
     // @private
     onDataChanged : function(store) {
-        store = store || this.store;
+        store = store || this.trucksStore;
         if (store && store.getRange) {
             this.setOptions(Ext.pluck(store.data.items, 'data'));
         }

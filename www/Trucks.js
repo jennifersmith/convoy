@@ -43,13 +43,13 @@ Ext.regModel('Truck', {
 
     changeName: function() {
         var oldName = this.get('name'),
-            newName = oldName + " The Barbarian";
+            CreateTrucksStore = oldName + " The Barbarian";
 
         this.set('name', newName);
     }
 });
 
-Convoy.CreateTrucksReader = function(){
+Convoy.CreateTrucksStore = function(){
    return new Ext.data.JsonPStore({
         url: Convoy.Urls.Trucks,
         callbackParam: "callback",
