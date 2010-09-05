@@ -1,6 +1,6 @@
 Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
     cls: 'game-screen',
-    layout: 'card',
+    layout: 'hbox',
     defaults: {
         cls:'game-panel',
         height:"100%"
@@ -40,16 +40,28 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
             items: dataView
         });
 
+        var mapPanel = new Convoy.views.MapPanel(
+        {
+            height: "100%", width:"100%",
+            id:'map-view'
+            });
+
         var rightPanel = new Ext.Panel({
-            layout: 'vbox',
+            id:'right-view',
             width: '25%',
-            items:[panel]
+            height: '100%',
+            items: [mapPanel]
         });
-        this.items = [panel, rightPanel];
+        this.items = [ panel, rightPanel];
         this.dockedItems = [bottomToolbar];
 
+
+
         Convoy.views.StartScreen.superclass.initComponent.call(this);
+
+
         dataView.on("itemtap", this.itemTapped, this);
+
         this.trucksStore.load();
 
 
@@ -63,6 +75,20 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
     }
 });
 
+Convoy.views.MapPanel = Ext.extend(Ext.Panel,{
+    initComponent: function() {
+
+        Convoy.views.MapPanel.superclass.initComponent.call(this);
+        this.on("render", function(){
+            var map = new Ext.Map({
+            });
+            this.add(map);
+        }, this);
+    }
+
+
+
+});
 Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
     floating: true,
     modal: true,
