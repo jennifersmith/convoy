@@ -111,9 +111,10 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
             tpl: Convoy.templates.playerMainDisplay,
             itemSelector: 'div.player',
             singleSelect: false,
+             multipleSelect:false,
             grouped: false,
             indexBar: true ,
-            scroll: true
+            scroll: true 
         });
 
          var toolbar = {
@@ -127,6 +128,10 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
 
         Convoy.views.PlayersListPanel.superclass.initComponent.call(this);
         this.ensurePlayers();
+        playerList.on("itemtap", function(sender, tapped){
+            var player = playerList.getRecord(sender.getNode(tapped));
+            alert(player.get("name"));
+        }, this);
 //        this.mainView.on('playerlistchanged', function(){
 //            playerList.hide();
 //            setTimeout(1000, function(){
@@ -143,7 +148,9 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
 Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
     geo : new Ext.util.GeoLocation(),
     hasMoved: function(newLocation){
-      return this.latLng!== newLocation;
+      var hasMoved =  (!this.latLng)||(this.latLng.latitude!= newLocation.longitude)||(this.latLng.longitude!= newLocation.longitude) ;
+        return hasMoved;
+
     },
     setMarker: function(){
 
@@ -275,7 +282,6 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
             this.geoLocation.getLocation(function(location){
                 var player = playerList.getSelectedRecords()[0];
                 this.hide();
-                
                 player.spottedA(this.itemSpotted, location);
                 this.playersStore.sync();
             }, this);

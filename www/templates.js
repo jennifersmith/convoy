@@ -27,8 +27,8 @@ Convoy.templates.itemBoxOnPlayerSelect=new Ext.XTemplate(
             );
 
 Convoy.templates.playerSelectListItem=new Ext.XTemplate(
-            '<tpl for="."><div class="player"><strong>{name}</strong></div></tpl>'
+            '<tpl for="."><div class="player" ><strong>{name}</strong></div></tpl>'
             );
 
 Convoy.templates.playerMainDisplay = new Ext.XTemplate(
-            '<tpl for="."><div class="player"><strong>{name}</strong><span>{currentScore}</span></div></tpl>');
+            '<tpl for="."><div class="player" id="{id}"><strong>{name}</strong><span>{currentScore}</span></div></tpl>');

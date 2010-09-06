@@ -13,11 +13,11 @@ Ext.regModel('Player', {
 
     spottedA: function(item, where){
         this.addToScore(item.get("score"));
-        this.appendHistory(item);
+        this.appendHistory(item, where);
     },
     appendHistory: function(item, where){
         var currentHistory = this.get("history");
-        currentHistory += "[" + item.get("id") + "|" + where + "],";
+        currentHistory += "[" + item.get("id") + "|" + where.latitude + "," +where.longitude +  "],";
         this.set("history", currentHistory);
     }
 });
