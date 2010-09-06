@@ -5216,7 +5216,7 @@ Ext.util.GeoLocation = Ext.extend(Ext.util.Observable, {
      * Returns cached coordinates, and updates if there are no cached coords yet.
      */
     getLocation : function(callback, scope) {
-        var me = this;
+        var me = this;             
         if (me.hasGeoLocation && !me.coords) {
             me.updateLocation(callback, scope);
         }
@@ -5241,9 +5241,10 @@ Ext.util.GeoLocation = Ext.extend(Ext.util.Observable, {
             me.fireEvent('beforeupdate', me);
             navigator.geolocation.getCurrentPosition(function(position) {
                 me.coords = me.parseCoords(position);
+                
                 if (callback) {
                     callback.call(scope || me, me.coords, me);
-                }
+                }   
                 me.fireEvent('update', me.coords, me);
             });
         }
@@ -24616,7 +24617,7 @@ Ext.Map = Ext.extend(Ext.Component, {
         Ext.Map.superclass.initComponent.call(this);
 
         if (this.getLocation) {
-            this.geo = new Ext.util.GeoLocation();
+            this.geo = new Ext.util.GeoLocation();  
             this.geo.on('update', this.onGeoUpdate, this);
         }
         else {
@@ -24629,7 +24630,8 @@ Ext.Map = Ext.extend(Ext.Component, {
         }
     },
 
-    onGeoUpdate : function(coords) {
+    onGeoUpdate : function(coords) { 
+
         if (coords) {
             this.mapOptions.center = new google.maps.LatLng(coords.latitude, coords.longitude);
         }

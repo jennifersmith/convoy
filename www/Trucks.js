@@ -39,14 +39,7 @@ Ext.regModel('Truck', {
         {name: 'imagePath',  type: 'string'},
         {name: 'id',  type: 'string'},
         {name: 'score',  type: 'integer'}
-    ],
-
-    changeName: function() {
-        var oldName = this.get('name'),
-            CreateTrucksStore = oldName + " The Barbarian";
-
-        this.set('name', newName);
-    }
+    ]
 });
 
 Convoy.CreateTrucksStore = function(){
