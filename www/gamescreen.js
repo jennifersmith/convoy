@@ -20,7 +20,8 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
         var that = this;
 
         var bottomToolbar = new Convoy.views.GameScreenBottomBar({
-            playersStore : this.playersStore
+            playersStore : this.playersStore,
+            mainView : this
         });
 
         var dataView = new Ext.DataView({
@@ -42,19 +43,24 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
 
         var mapPanel = new Convoy.views.MapPanel(
         {
-            height: "100%", width:"100%",
+            height: "50%", width:"100%",
             id:'map-view'
-            });
+        });
+
+        var playersListPanel = new Convoy.views.PlayersListPanel({
+            height:"50%",
+            width: "100%",
+            playersStore: this.playersStore,
+            mainView : this});
 
         var rightPanel = new Ext.Panel({
             id:'right-view',
             width: '25%',
             height: '100%',
-            items: [mapPanel]
+            items: [mapPanel,playersListPanel]
         });
         this.items = [ panel, rightPanel];
         this.dockedItems = [bottomToolbar];
-
 
 
         Convoy.views.StartScreen.superclass.initComponent.call(this);
@@ -75,11 +81,47 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
     }
 });
 
-Convoy.views.MapPanel = Ext.extend(Ext.Panel,{
+Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
+    initComponent: function() {
+         var playerList = new Ext.List({
+            store: this.playersStore,
+            tpl: Convoy.templates.playerMainDisplay,
+            itemSelector: 'div.player',
+            singleSelect: false,
+            grouped: false,
+            indexBar: true ,
+            scroll: true
+        });
+
+         var toolbar = {
+            dock: 'top',
+            xtype: 'toolbar',
+            title: 'Players'
+            };
+
+        this.dockedItems = [toolbar];
+        this.items = [playerList];
+
+        Convoy.views.PlayersListPanel.superclass.initComponent.call(this);
+        this.ensurePlayers();
+        this.mainView.on('playerlistchanged', function(){
+            playerList.hide();
+            setTimeout(1000, function(){
+            //this.playersStore.load();
+            playerList.show("Fade");  });
+        },this);
+
+    },
+    ensurePlayers: function(){
+        this.playersStore.load();
+
+    }
+});
+Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
     initComponent: function() {
 
         Convoy.views.MapPanel.superclass.initComponent.call(this);
-        this.on("render", function(){
+        this.on("render", function() {
             var map = new Ext.Map({
             });
             this.add(map);
@@ -132,7 +174,7 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
 
         var scoreButton = new Ext.Button({ text: "SCORE!"});
         scoreButton.hide();
-       this.playersStore.load();
+        this.playersStore.load();
 
         this.items = [
             {xtype:"panel", tpl: Convoy.templates.itemBoxOnPlayerSelect, data: this.itemSpotted.data},
@@ -141,21 +183,20 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
         ];
 
         Convoy.views.PlayerSelect.superclass.initComponent.call(this);
-        playerList.on("selectionchange", function(dataView, selections){
-            if(selections.length){
+        playerList.on("selectionchange", function(dataView, selections) {
+            if (selections.length) {
                 scoreButton.show();
             }
-            else{
+            else {
                 scoreButton.hide();
             }
         }, this);
 
 
-        scoreButton.setHandler(function(){
+        scoreButton.setHandler(function() {
             var player = playerList.getSelectedRecords()[0];
             player.addToScore(this.itemSpotted.data.score);
             this.playersStore.sync();
-            alert(player.data.currentScore);
             this.hide();
         }, this);
     }
@@ -178,6 +219,7 @@ Convoy.views.GameScreenBottomBar = Ext.extend(Ext.Toolbar,
             that.loadPlayers();
         };
         Convoy.views.GameScreenBottomBar.superclass.initComponent.call(this);
+            this.playersStore.load();
 
     },
 
@@ -191,7 +233,9 @@ Convoy.views.GameScreenBottomBar = Ext.extend(Ext.Toolbar,
             this.playersStore.add(Ext.ModelMgr.create({name:"joe", id:"joe", currentScore: 0}, "Player"));
             this.playersStore.add(Ext.ModelMgr.create({name:"freda", id:"freda", currentScore: 0}, "Player"));
             this.playersStore.add(Ext.ModelMgr.create({name:"frank", id:"frank", currentScore: 0}, "Player"));
+
             this.playersStore.sync();
+            this.mainView.fireEvent('playerlistchanged');
         }
     }
 });
