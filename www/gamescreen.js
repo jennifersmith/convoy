@@ -132,12 +132,12 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
             var player = playerList.getRecord(sender.getNode(tapped));
             alert(player.get("name"));
         }, this);
-//        this.mainView.on('playerlistchanged', function(){
-//            playerList.hide();
-//            setTimeout(1000, function(){
-//            //this.playersStore.load();
-//            playerList.show("Fade");  });
-//        },this);
+
+        this.mainView.on('playerlistchanged', function(){
+                this.playersStore.load();
+                playerList.refresh();
+                //playerList.refresh();
+        },this);
 
     },
     ensurePlayers: function(){
@@ -251,9 +251,9 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
             store: this.playersStore,
             tpl: Convoy.templates.playerSelectListItem,
             itemSelector: 'div.player',
-            singleSelect: true,
+            singleSelect: false,
+            multiSelect:true,
             grouped: false,
-            indexBar: true ,
             scroll: true
         });
 
@@ -280,9 +280,12 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
 
         scoreButton.setHandler(function() {
             this.geoLocation.getLocation(function(location){
-                var player = playerList.getSelectedRecords()[0];
+                var players = playerList.getSelectedRecords();
+                for(var i = 0; i < players.length; i++){
+                    // where is .each when you need it...
+                    players[i].spottedA(this.itemSpotted, location);
+                }
                 this.hide();
-                player.spottedA(this.itemSpotted, location);
                 this.playersStore.sync();
             }, this);
         }, this);
@@ -323,14 +326,17 @@ Convoy.views.GameScreenBottomBar = Ext.extend(Ext.Toolbar,
         if (confirm("start new?")) {
 
             this.playersStore.proxy.clear();
+            this.playersStore.sync();
+            this.playersStore.load();
+            
             this.playersStore.add(Ext.ModelMgr.create({name:"fred", id:"fred", currentScore: 0}, "Player"));
             this.playersStore.add(Ext.ModelMgr.create({name:"bob", id:"bob", currentScore: 0}, "Player"));
             this.playersStore.add(Ext.ModelMgr.create({name:"joe", id:"joe", currentScore: 0}, "Player"));
             this.playersStore.add(Ext.ModelMgr.create({name:"freda", id:"freda", currentScore: 0}, "Player"));
             this.playersStore.add(Ext.ModelMgr.create({name:"frank", id:"frank", currentScore: 0}, "Player"));
-
             this.playersStore.sync();
+                    
             this.mainView.fireEvent('playerlistchanged');
-        }
+        } 
     }
 });
