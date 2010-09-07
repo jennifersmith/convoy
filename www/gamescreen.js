@@ -97,7 +97,7 @@ Convoy.views.SpottablesPanel = Ext.extend(Ext.Panel, {
             scroll:true ,
             singleSelect:false,
             multiSelect:false,
-            height :'50%' //TEMP
+            height :'100%' 
         });
 
 //        var testButton = new Ext.Button({
@@ -167,6 +167,26 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
     }
 });
 Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
+    initComponent: function() {
+
+        var toolbar = {
+            dock: 'top',
+            xtype: 'toolbar',
+            title: 'Location'};
+        this.dockedItems = [toolbar];
+        if(offline){
+            this.items = [{xtype: "panel", html:"Map not available in offline mode"}];
+        } else{
+
+        this.items = [new Convoy.views.Map({height:"100%", width:"100%"})];   
+        }
+
+        Convoy.views.MapPanel.superclass.initComponent.call(this);
+    }
+
+});
+
+Convoy.views.Map = Ext.extend(Ext.Panel, {
     geo : new Ext.util.GeoLocation(),
     hasMoved: function(newLocation){
       var hasMoved =  (!this.latLng)||(this.latLng.latitude!= newLocation.longitude)||(this.latLng.longitude!= newLocation.longitude) ;
@@ -187,6 +207,10 @@ Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
         else{     
             this.marker.setPosition(this.latLng);
         }
+        this.addToRoute();
+    },
+    addToRoute: function(){
+      
         if(!this.route){
              var polyOptions = {
                 strokeColor: '#000000',
@@ -203,13 +227,9 @@ Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
     },
     initComponent: function() {
 
-        var toolbar = {
-            dock: 'top',
-            xtype: 'toolbar',
-            title: 'Location'};
-        this.dockedItems = [toolbar];
-        Convoy.views.MapPanel.superclass.initComponent.call(this);
+        Convoy.views.Map.superclass.initComponent.call(this);
         this.on("render", function() {
+
             this.map = new Ext.Map({
                 zoom: 12
             });
