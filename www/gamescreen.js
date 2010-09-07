@@ -40,28 +40,16 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
         this.playersStore.load();
 
 
-        var that = this;
-
         var bottomToolbar = new Convoy.views.GameScreenBottomBar({
             playersStore : this.playersStore,
             mainView : this
         });
 
-        var dataView = new Ext.DataView({
-            store: this.spottablesStore,     
-            tpl: tpl,
-            overClass:'x-view-over',
-            itemSelector:'div.item-box',
-            emptyText: 'No data',
-            scroll:true ,
-            singleSelect:false,
-            multiSelect:false
-        });
-        var panel = new Ext.Panel({
+        var spottablesPanel = new Convoy.views.SpottablesPanel({
             id:'main-view',
             width: '75%',
-
-            items: dataView
+            spottablesStore : this.spottablesStore,
+            playersStore : this.playersStore
         });
 
         var mapPanel = new Convoy.views.MapPanel(
@@ -80,14 +68,47 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
             id:'right-view',
             width: '25%',
             height: '100%',
-            items: [mapPanel,playersListPanel]
+            items: [playersListPanel,mapPanel]
         });
-        this.items = [ panel, rightPanel];
+        this.items = [ spottablesPanel, rightPanel];
         this.dockedItems = [bottomToolbar];
 
 
         Convoy.views.StartScreen.superclass.initComponent.call(this);
 
+
+
+
+
+    } 
+});
+
+Convoy.views.SpottablesPanel = Ext.extend(Ext.Panel, {
+    initComponent: function() {
+
+        var tpl = Convoy.templates.itemBox;
+
+        var dataView = new Ext.DataView({
+            store: this.spottablesStore,
+            tpl: tpl,
+            overClass:'x-view-over',
+            itemSelector:'div.item-box',
+            emptyText: 'No data',
+            scroll:true ,
+            singleSelect:false,
+            multiSelect:false,
+            height :'50%' //TEMP
+        });
+
+//        var testButton = new Ext.Button({
+//            iconCls: "smile", ui:"mask" , cls: "x-spottable-button", text: "Smile!"
+//        });
+
+        this.items = [dataView];
+
+
+
+        Convoy.views.SpottablesPanel.superclass.initComponent.call(this);
 
         dataView.on("itemtap", this.itemTapped, this);
 
@@ -102,8 +123,8 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
         });
         playerSelect.show('pop');
     }
-});
 
+});
 Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
     initComponent: function() {
          var playerList = new Ext.List({
