@@ -34,7 +34,7 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
     initComponent: function() {
 
         var tpl = Convoy.templates.itemBox;
-        this.trucksStore = Convoy.CreateTrucksStore();
+        this.spottablesStore = Convoy.CreateSpottablesStore();
         this.playersStore = Convoy.CreatePlayersStore();
 
         this.playersStore.load();
@@ -48,7 +48,7 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
         });
 
         var dataView = new Ext.DataView({
-            store: this.trucksStore,       // I have no clue how this is working... it doesnt when i call it store
+            store: this.spottablesStore,     
             tpl: tpl,
             overClass:'x-view-over',
             itemSelector:'div.item-box',
@@ -91,13 +91,13 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
 
         dataView.on("itemtap", this.itemTapped, this);
 
-        this.trucksStore.load();
+        this.spottablesStore.load();
 
 
     } ,
     itemTapped: function(dataView, index, item, e) {
         var playerSelect = new Convoy.views.PlayerSelect({
-            itemSpotted: this.trucksStore.getById(item["id"]),
+            itemSpotted: this.spottablesStore.getById(item["id"]),
             playersStore : this.playersStore
         });
         playerSelect.show('pop');

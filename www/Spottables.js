@@ -16,24 +16,13 @@ Convoy.Urls = function(loadLocalhostUrls){
         }
     }
     return {
-        Trucks: url("/data")
+        Data: url("/data")
     };
 
 }(offline);
 
 
-Trucks = {
-       get: function(success){
-             Ext.util.JSONP.request( {
-                 url:Convoy.Urls.Trucks,
-                callbackKey: 'callback',
-                callback: function(data){
-                    success(data.items);  
-                }
-            });
-       }
-};
-Ext.regModel('Truck', {
+Ext.regModel('Spottable', {
     fields: [
         {name: 'name',  type: 'string'},
         {name: 'imagePath',  type: 'string'},
@@ -42,16 +31,16 @@ Ext.regModel('Truck', {
     ]
 });
 
-Convoy.CreateTrucksStore = function(){
+Convoy.CreateSpottablesStore = function(){
    return new Ext.data.JsonPStore({
-        url: Convoy.Urls.Trucks,
+        url: Convoy.Urls.Data,
         callbackParam: "callback",
         root: '.items',
        reader:{
          type: "json" ,
            root: "items"
        },
-        model: 'Truck'});
+        model: 'Spottable'});
 };
 //        fields: [
 //            'name', 'url',
