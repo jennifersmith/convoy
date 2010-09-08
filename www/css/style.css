@@ -6,11 +6,11 @@
 .toolbar-textfield label { color:white; margin-right: 0.3em; }
 .game-panel { border:1px black solid; }
 
-.item-box  { float: left; -webkit-border-radius: 3px; margin: .2em .15em; text-align: center; width: 11em; height: 10em; text-shadow: #000 0 1px 0; color: #9aa7b2; padding: 1.7em .2em 0; font-weight: bold; position: relative; }
+.item-box  { float: left; -webkit-border-radius: 3px; margin: .2em .15em; text-align: center; width: 220px; height: 140px; text-shadow: #000 0 1px 0; color: #9aa7b2; padding: 1.7em .2em 0; font-weight: bold; position: relative; }
 .item-box  span { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; font-size: 9px; display: inline-block; }
-.item-box  img { width: 2.1em; height: 2.1em; background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #9ba6b1), color-stop(2%, #647482), color-stop(100%, #434d57)); display: block; position: absolute; top: .2em; left: .6em; -webkit-box-shadow: #000 0 1px 0; -webkit-mask-box-size: 1.7em; text-shadow: #000 0 1px 0; }
-/*.x-tabbar.x-docked-bottom .x-tab img.download { -webkit-mask-box-image: url(''); }
-*/
+.item-box  img { width: 140px; height: 70px; background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #9ba6b1), color-stop(2%, #647482), color-stop(100%, #434d57)); display: block; position: absolute; top: 40px; left: 26px; -webkit-box-shadow: #000 0 1px 0; -webkit-mask-box-size: 1.7em; text-shadow: #000 0 1px 0; }
+.item-box  img { -webkit-mask-box-image: url('../images/lorry-mask.png'); }
+
 .item-box  { background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #6e8291), color-stop(2%, #303940), color-stop(50%, #333c43), color-stop(51%, #2c343a), color-stop(100%, #161a1d)); color: #fff; }
 .x-tabbar.x-docked-bottom .x-tab.x-tab-active img { background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #cce7ff), color-stop(2%, #3da5ff), color-stop(50%, #42a8ff), color-stop(51%, #33a1ff), color-stop(100%, #0089ff)); }
 
