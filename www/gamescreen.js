@@ -1,20 +1,22 @@
 Convoy.FakeLocation = new function(){
-  this.stubLocation = {
-          coords : {
-              latitude: 51.3026 ,
-              longitude: 0.739
-          }
-       };
+
   if(window.console){
 
   navigator.geolocation.getCurrentPosition = function(callback){
+      if(Convoy.FakeLocation.stubLocation){
+
         callback(Convoy.FakeLocation.stubLocation);
-    } ;
+      }
+    };
  }
 
   this.setLocation = function (latitude, longitude){
-        Convoy.FakeLocation.stubLocation.coords.latitude = latitude;
-        Convoy.FakeLocation.stubLocation.coords.longitude = longitude;
+        Convoy.FakeLocation.stubLocation = {
+          coords : {
+              latitude:latitude,
+              longitude: longitude
+          }
+       };
   };
   return this;
 }();
@@ -62,6 +64,7 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
             height:"50%",
             width: "100%",
             playersStore: this.playersStore,
+            spottablesStore: this.spottablesStore,
             mainView : this});
 
         var rightPanel = new Ext.Panel({
@@ -148,8 +151,8 @@ Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
 Convoy.views.Map = Ext.extend(Ext.Panel, {
     geo : new Ext.util.GeoLocation(),
     hasMoved: function(newLocation){
-      var hasMoved =  (!this.latLng)||(this.latLng.latitude!= newLocation.longitude)||(this.latLng.longitude!= newLocation.longitude) ;
-        return hasMoved;
+      var hasMoved =  (!this.latLng)||(this.latLng.lat()!= newLocation.lat())||(this.latLng.lng()!= newLocation.lng()) ;
+      return hasMoved;
 
     },
     setMarker: function(){
@@ -227,6 +230,8 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
     scroll: 'vertical',
     geoLocation : new Ext.util.GeoLocation(),
     initComponent: function() {
+
+	    this.geocoder = new google.maps.Geocoder();
         var that = this;
         var toolbar = {
             dock: 'top',
@@ -280,63 +285,21 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
 
         scoreButton.setHandler(function() {
             this.geoLocation.getLocation(function(location){
+               var latLng = new google.maps.LatLng(location.latitude, location.longitude);
+               var that = this; //arrrrrrrrgh
+               this.geocoder.geocode({'latLng': latLng}, function(results, status) {
+                var locationDisplay = (results[0].formatted_address);
                 var players = playerList.getSelectedRecords();
                 for(var i = 0; i < players.length; i++){
                     // where is .each when you need it...
-                    players[i].spottedA(this.itemSpotted, location);
+                    players[i].spottedA(that.itemSpotted, {coords: location, display:locationDisplay});
                 }
-                this.hide();
-                this.playersStore.sync();
+                that.hide();
+                that.playersStore.sync();
+               });
+                 
             }, this);
         }, this);
     }
 });
 
-Convoy.views.GameScreenBottomBar = Ext.extend(Ext.Toolbar,
-{
-    dock: 'bottom',
-    xtype: 'toolbar',
-    title: 'CONVOY!',
-    items: [
-        {
-            iconCls: 'bolt',
-            ui:"mask"
-        },
-        {
-            iconCls: 'locate',
-            ui:"mask"
-        }
-    ],
-    initComponent: function() {
-        var that = this;
-        this.items[0].handler = function() {
-            that.loadPlayers();
-        };
-        this.items[1].handler = function() {
-            var loc = prompt("enter location comma separated").split(",");
-            Convoy.FakeLocation.setLocation(loc[0], loc[1]);
-        };
-        Convoy.views.GameScreenBottomBar.superclass.initComponent.call(this);
-            this.playersStore.load();
-
-    },
-
-    loadPlayers: function() {
-
-        if (confirm("start new?")) {
-
-            this.playersStore.proxy.clear();
-            this.playersStore.sync();
-            this.playersStore.load();
-            
-            this.playersStore.add(Ext.ModelMgr.create({name:"fred", id:"fred", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"bob", id:"bob", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"joe", id:"joe", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"freda", id:"freda", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"frank", id:"frank", currentScore: 0}, "Player"));
-            this.playersStore.sync();
-                    
-            this.mainView.fireEvent('playerlistchanged');
-        } 
-    }
-});

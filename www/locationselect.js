@@ -31,7 +31,6 @@ Convoy.views.LocationSelectScreen = Ext.extend(Ext.Panel, {
 		var mapPanel = new Ext.Panel({
             items: [this.map]
         });
-		
 
 	    this.geocoder = new google.maps.Geocoder();
 
@@ -71,7 +70,22 @@ Convoy.views.LocationSelectScreen = Ext.extend(Ext.Panel, {
             },
 		    items: [this.locationEnd, this.locationEndFind, nextButton]
 		});
-       	this.dockedItems = [this.toolbar, this.toolbar2];
+        var newToolbar  =  new Ext.Toolbar({
+		    dock: 'top',
+            layout: {
+                pack: 'end'
+            },
+            defaults: {
+                scope: this,
+                ui: 'mask', xtype:"button"
+            },
+		    items: [{iconCls:"bolt", handler: function(){
+                var content = "";
+
+                new Convoy.overlay("<textarea>" + JSON.stringify(that.points) + "</textarea>");
+            }}]
+		});
+       	this.dockedItems = [this.toolbar, this.toolbar2, newToolbar];
         this.items = [mapPanel];
         Convoy.views.StartScreen.superclass.initComponent.call(this);
 		this.on("activate", this.onActivate, this);
@@ -91,6 +105,16 @@ Convoy.views.LocationSelectScreen = Ext.extend(Ext.Panel, {
 		geo.getLocation(function(coordinates){
 			that.setMarkers(coordinates);
 		});
+
+        this.points = new Array();
+        google.maps.event.addListener(this.map.map, 'click', function(clicked) {
+            that.points.push({lat:clicked.latLng.lat(), lng: clicked.latLng.lng()});
+            new google.maps.Marker({
+              position: clicked.latLng,
+              map: that.map.map,
+              draggable: true
+            });
+        });
 	},
 	setMarkers: function(coordinates){
 		

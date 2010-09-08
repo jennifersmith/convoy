@@ -16,6 +16,9 @@ Convoy.App = Ext.extend(Ext.Panel, {
 	        this.gameScreen = new Convoy.views.GameScreen({
 					flex: 1
 	        });
+	        this.locationSelect = new Convoy.views.LocationSelectScreen({
+					flex: 1
+	        });
 
         //this.detail = new Convoy.views.LegislatorDetails();
 
