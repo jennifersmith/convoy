@@ -8,7 +8,8 @@
 
 Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
     initComponent: function() {
-        var playerList = new Ext.List({
+        var that = this;
+        this.playerList = new Ext.List({
             store: this.playersStore,
             tpl: Convoy.templates.playerMainDisplay,
             itemSelector: 'div.player',
@@ -19,6 +20,29 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
             scroll: true
         });
 
+        this.playerList.components = [
+            {
+                config: {
+                    xtype: 'button',
+                    ui: 'mask',
+                    iconCls: 'delete',
+                    handler:function(sender, event){
+                        that.deletePrompt(event.target);
+                    }
+                }  
+            },
+            {
+                config: {
+                    xtype: 'button',
+                    ui:'mask',
+                    iconCls: 'bookmarks',
+                    handler:function(sender, event){
+                        that.showHistory(event.target);
+                    }
+                }
+            }
+        ];
+
         var toolbar = {
             dock: 'top',
             xtype: 'toolbar',
@@ -26,32 +50,45 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
         };
 
         this.dockedItems = [toolbar];
-        this.items = [playerList];
+        this.items = [this.playerList];
         this.historyPopup = new Convoy.views.PlayerScoreHistory({});
 
         Convoy.views.PlayersListPanel.superclass.initComponent.call(this);
         this.ensurePlayers();
-        playerList.on("itemtap", function(sender, tapped) {
-            var player = playerList.getRecord(sender.getNode(tapped));
-            var history = player.getHistory(this.spottablesStore);
-            this.historyPopup.show(player,history);
-//            this.historyPopup.show("pop");
-//
-//                title: "Score history for " + player.get("name")
-//            }).show("pop");
-
-
-        }, this);
 
         this.mainView.on('playerlistchanged', function() {
             this.playersStore.load();
-            playerList.refresh();
+            this.playerList.refresh();
         }, this);
 
-    },
+    },  
     ensurePlayers: function() {
         this.playersStore.load();
 
+    },
+    showHistory: function(target){
+        var node = this.playerList.findItemFromChild(target);
+        if (node) {
+            var player = this.playerList.getRecord(node);
+            var history = player.getHistory(this.spottablesStore);
+            this.historyPopup.show(player,history);
+        }
+
+    },
+    deletePrompt:function (target) {
+        var node = this.playerList.findItemFromChild(target);
+        if (node) {
+            var record = this.playerList.getRecord(node);
+            if (confirm("Are you sure you want to delete this player?")) {
+                var index = this.playersStore.indexOf(record);
+                alert(index);
+                alert(record.get("name"));
+                this.playersStore.remove(record);
+                this.playersStore.sync();
+                this.playersStore.load();
+
+            }
+        }
     }
 });
 
