@@ -27,17 +27,18 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
 
         this.dockedItems = [toolbar];
         this.items = [playerList];
+        this.historyPopup = new Convoy.views.PlayerScoreHistory({});
 
         Convoy.views.PlayersListPanel.superclass.initComponent.call(this);
         this.ensurePlayers();
         playerList.on("itemtap", function(sender, tapped) {
             var player = playerList.getRecord(sender.getNode(tapped));
             var history = player.getHistory(this.spottablesStore);
-
-            new Convoy.views.PlayerScoreHistory({
-                history:history,
-                title: "Score history for " + player.get("name")
-            }).show("pop");
+            this.historyPopup.show(player,history);
+//            this.historyPopup.show("pop");
+//
+//                title: "Score history for " + player.get("name")
+//            }).show("pop");
 
 
         }, this);
@@ -68,16 +69,14 @@ Convoy.views.PlayerScoreHistory = Ext.extend(Ext.Panel, {
         }
     ],
     initComponent: function() {
-        this.dockedItems[0].title = this.title;
-        var store = new Ext.data.JsonStore({
+        this.store = new Ext.data.JsonStore({
               autoDestroy: true,
-                storeId: 'playerHistory',
-            data: this.history  ,
+            storeId: 'playerHistory',
             fields: ['when', 'where', 'spotted']
         });
-        var list = new Ext.List({
+        this.list = new Ext.List({
             height: 200,
-            store: store  ,
+            store: this.store  ,
             tpl:Convoy.templates.historyItem ,
             itemSelector: 'div.historyItem',
             singleSelect: false,
@@ -85,16 +84,15 @@ Convoy.views.PlayerScoreHistory = Ext.extend(Ext.Panel, {
             grouped: false ,
             scroll: 'vertical'
         })
-//        this.html = this.getData();
-        this.items = [list];
+        this.items = [this.list];
         Convoy.views.PlayerScoreHistory.superclass.initComponent.call(this);
     },
-    getData: function(){
-        var result = "";
-        for(var i = 0 ; i < this.history.length; i++){
-            var template = Convoy.templates.historyItem;
-            result += template.apply(this.history[i]);
-        }
-        return result;
+    show: function(player, history){
+
+        this.getDockedItems()[0].setTitle("Previously spotted by " + player.get("name") );
+        this.store.loadData(history);
+        this.list.doComponentLayout();
+        Convoy.views.PlayerScoreHistory.superclass.show.call(this, 'pop');
+
     }
 });
