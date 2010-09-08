@@ -284,7 +284,7 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
 
 
         scoreButton.setHandler(function() {
-            this.geoLocation.getLocation(function(location){
+            this.geoLocation.updateLocation(function(location){
                var latLng = new google.maps.LatLng(location.latitude, location.longitude);
                var that = this; //arrrrrrrrgh
                this.geocoder.geocode({'latLng': latLng}, function(results, status) {

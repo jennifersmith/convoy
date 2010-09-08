@@ -1,7 +1,7 @@
 .start-button { -webkit-border-radius: 2em; margin: 3em 0; font-size:2em; }
 .app { background-repeat: no-repeat; background-position: center top; background-size: 500px 200px; }
 .splash { background:transparent; }
-.screen { background: #092542 url("../images/stobart.jpg"); background-color: #ccc; margin-top: 115px }
+.screen { background: #092542 url("../images/thelorrygame/stobart.jpg"); background-color: #ccc; margin-top: 115px }
 .toolbar-textfield input { width: 25em; }
 .toolbar-textfield label { color:white; margin-right: 0.3em; }
 .game-panel { border:1px black solid; }
