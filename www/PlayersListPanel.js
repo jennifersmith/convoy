@@ -58,7 +58,7 @@ Convoy.views.PlayerScoreHistory = Ext.extend(Ext.Panel, {
     floating: true,
     modal: true,
     centered: true,
-    width: 320,
+    width: 420,
     height: 300,
     styleHtmlContent: true,
     dockedItems: [

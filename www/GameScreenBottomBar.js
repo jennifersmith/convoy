@@ -35,7 +35,7 @@ Convoy.views.GameScreenBottomBar = Ext.extend(Ext.Toolbar,
             var loc = prompt("enter location comma separated", defaultLoc).split(",");
             Convoy.FakeLocation.setLocation(loc[0], loc[1]);
         };
-        var route = new Convoy.RouteSimulator(7000);
+        var route = new Convoy.RouteSimulator(5000);
         this.items[2].handler = function() {
             route.start();
         };
