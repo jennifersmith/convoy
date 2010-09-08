@@ -57,7 +57,7 @@ Convoy.ScoreHistory = function(raw){
                     where:where,
                     when: when.format("g:i a") 
                 };
-        history.push(item);
+        history.unshift(item);
     }
 
     this.stringify = function(){
