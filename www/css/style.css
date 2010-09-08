@@ -1,80 +1,27 @@
+.start-button { -webkit-border-radius: 2em; margin: 3em 0; font-size:2em; }
+.app { background-repeat: no-repeat; background-position: center top; background-size: 500px 200px; }
+.splash { background:transparent; }
+.screen { background: #092542 url("../images/stobart.jpg"); background-color: #ccc; margin-top: 115px }
+.toolbar-textfield input { width: 25em; }
+.toolbar-textfield label { color:white; margin-right: 0.3em; }
+.game-panel { border:1px black solid; }
 
-.start-button{
-    -webkit-border-radius: 2em;
-    margin: 3em 0;
-    font-size:2em;
-}
+.item-box  { float: left; -webkit-border-radius: 3px; margin: .2em .15em; text-align: center; width: 11em; height: 10em; text-shadow: #000 0 1px 0; color: #9aa7b2; padding: 1.7em .2em 0; font-weight: bold; position: relative; }
+.item-box  span { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; font-size: 9px; display: inline-block; }
+.item-box  img { width: 2.1em; height: 2.1em; background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #9ba6b1), color-stop(2%, #647482), color-stop(100%, #434d57)); display: block; position: absolute; top: .2em; left: .6em; -webkit-box-shadow: #000 0 1px 0; -webkit-mask-box-size: 1.7em; text-shadow: #000 0 1px 0; }
+/*.x-tabbar.x-docked-bottom .x-tab img.download { -webkit-mask-box-image: url(''); }
+*/
+.item-box  { background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #6e8291), color-stop(2%, #303940), color-stop(50%, #333c43), color-stop(51%, #2c343a), color-stop(100%, #161a1d)); color: #fff; }
+.x-tabbar.x-docked-bottom .x-tab.x-tab-active img { background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #cce7ff), color-stop(2%, #3da5ff), color-stop(50%, #42a8ff), color-stop(51%, #33a1ff), color-stop(100%, #0089ff)); }
 
+/*.item-box div { background-repeat:no-repeat; background-position: center; width: 300px; height: 200px; float:left; }
+.item-box.x-item-pressed div { background-color: rgba(100, 100, 100, 0.7); border-color: #999; }
+.item-box div { border: 1px green solid; -webkit-border-radius: 2em; padding: 10px; }
+.item-box div p { background:white; border: 1px black solid; }
+.item-box-small div { background-repeat:no-repeat; background-position: center; height: 50px; }
+.x-button-plain.x-button-mask img.smile, .x-toolbar .x-button-plain.x-button-mask img.smile, .x-button-plain.x-button-pressed.x-button-mask img.smile, .x-toolbar .x-button-mask.x-button-mask img.smile, .x-button-mask.x-button-mask img.smile { -webkit-mask-box-image: url('../images/smilemask.png'); }
 
-.app {
-background-repeat: no-repeat;
-background-position: center top;
-background-size: 500px 200px;
-
-}
-.splash{
-	background:transparent;
-}
-
-.screen {
-    background: #092542 url("../images/stobart.jpg");
-    background-color: #ccc;
-    margin-top: 115px
-}
-.toolbar-textfield input{
-	width: 25em;
-}
-.toolbar-textfield label
-{
-	color:white;
-	margin-right: 0.3em;
-}
-
-.game-panel{
-    border:1px black solid;
-}
-
-.item-box div{
-    background-repeat:no-repeat;
-    background-position: center;
-    width: 300px;
-    height: 200px;
-    float:left;
-}
-.item-box.x-item-pressed div{
-    background-color: rgba(100, 100, 100, 0.7);
-    border-color: #999;
-
-}
-
-.item-box div{
-    border: 1px green solid;
-    -webkit-border-radius: 2em;
-    padding: 10px;
-
-}
-
-.item-box div p{
-    background:white;
-    border: 1px black solid;
-}
-
-.item-box-small div{
-    background-repeat:no-repeat;
-    background-position: center;
-    height: 50px;
-    
-}
-
-.x-button-plain.x-button-mask img.smile,
-.x-toolbar .x-button-plain.x-button-mask img.smile,
-.x-button-plain.x-button-pressed.x-button-mask img.smile,
-.x-toolbar .x-button-mask.x-button-mask img.smile,
-.x-button-mask.x-button-mask img.smile {
-    -webkit-mask-box-image: url('../images/smilemask.png');
-}
-
-
+*/
 /*.x-spottable-button {*/
     /*width: 60px;*/
     /*color: white;*/
