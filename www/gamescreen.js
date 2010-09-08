@@ -1,20 +1,22 @@
 Convoy.FakeLocation = new function(){
-  this.stubLocation = {
-          coords : {
-              latitude: 51.3026 ,
-              longitude: 0.739
-          }
-       };
+
   if(window.console){
 
   navigator.geolocation.getCurrentPosition = function(callback){
+      if(Convoy.FakeLocation.stubLocation){
+
         callback(Convoy.FakeLocation.stubLocation);
-    } ;
+      }
+    };
  }
 
   this.setLocation = function (latitude, longitude){
-        Convoy.FakeLocation.stubLocation.coords.latitude = latitude;
-        Convoy.FakeLocation.stubLocation.coords.longitude = longitude;
+        Convoy.FakeLocation.stubLocation = {
+          coords : {
+              latitude:latitude,
+              longitude: longitude
+          }
+       };
   };
   return this;
 }();
@@ -62,6 +64,7 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
             height:"50%",
             width: "100%",
             playersStore: this.playersStore,
+            spottablesStore: this.spottablesStore,
             mainView : this});
 
         var rightPanel = new Ext.Panel({
@@ -97,7 +100,7 @@ Convoy.views.SpottablesPanel = Ext.extend(Ext.Panel, {
             scroll:true ,
             singleSelect:false,
             multiSelect:false,
-            height :'50%' //TEMP
+            height :'100%' 
         });
 
 //        var testButton = new Ext.Button({
@@ -125,52 +128,31 @@ Convoy.views.SpottablesPanel = Ext.extend(Ext.Panel, {
     }
 
 });
-Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
+Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
     initComponent: function() {
-         var playerList = new Ext.List({
-            store: this.playersStore,
-            tpl: Convoy.templates.playerMainDisplay,
-            itemSelector: 'div.player',
-            singleSelect: false,
-             multipleSelect:false,
-            grouped: false,
-            indexBar: true ,
-            scroll: true 
-        });
 
-         var toolbar = {
+        var toolbar = {
             dock: 'top',
             xtype: 'toolbar',
-            title: 'Players'
-            };
-
+            title: 'Location'};
         this.dockedItems = [toolbar];
-        this.items = [playerList];
+        if(offline){
+            this.items = [{xtype: "panel", html:"Map not available in offline mode"}];
+        } else{
 
-        Convoy.views.PlayersListPanel.superclass.initComponent.call(this);
-        this.ensurePlayers();
-        playerList.on("itemtap", function(sender, tapped){
-            var player = playerList.getRecord(sender.getNode(tapped));
-            alert(player.get("name"));
-        }, this);
+        this.items = [new Convoy.views.Map({height:"100%", width:"100%"})];   
+        }
 
-        this.mainView.on('playerlistchanged', function(){
-                this.playersStore.load();
-                playerList.refresh();
-                //playerList.refresh();
-        },this);
-
-    },
-    ensurePlayers: function(){
-        this.playersStore.load();
-
+        Convoy.views.MapPanel.superclass.initComponent.call(this);
     }
+
 });
-Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
+
+Convoy.views.Map = Ext.extend(Ext.Panel, {
     geo : new Ext.util.GeoLocation(),
     hasMoved: function(newLocation){
-      var hasMoved =  (!this.latLng)||(this.latLng.latitude!= newLocation.longitude)||(this.latLng.longitude!= newLocation.longitude) ;
-        return hasMoved;
+      var hasMoved =  (!this.latLng)||(this.latLng.lat()!= newLocation.lat())||(this.latLng.lng()!= newLocation.lng()) ;
+      return hasMoved;
 
     },
     setMarker: function(){
@@ -187,6 +169,10 @@ Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
         else{     
             this.marker.setPosition(this.latLng);
         }
+        this.addToRoute();
+    },
+    addToRoute: function(){
+      
         if(!this.route){
              var polyOptions = {
                 strokeColor: '#000000',
@@ -203,13 +189,9 @@ Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
     },
     initComponent: function() {
 
-        var toolbar = {
-            dock: 'top',
-            xtype: 'toolbar',
-            title: 'Location'};
-        this.dockedItems = [toolbar];
-        Convoy.views.MapPanel.superclass.initComponent.call(this);
+        Convoy.views.Map.superclass.initComponent.call(this);
         this.on("render", function() {
+
             this.map = new Ext.Map({
                 zoom: 12
             });
@@ -248,6 +230,8 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
     scroll: 'vertical',
     geoLocation : new Ext.util.GeoLocation(),
     initComponent: function() {
+
+	    this.geocoder = new google.maps.Geocoder();
         var that = this;
         var toolbar = {
             dock: 'top',
@@ -301,63 +285,21 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
 
         scoreButton.setHandler(function() {
             this.geoLocation.getLocation(function(location){
+               var latLng = new google.maps.LatLng(location.latitude, location.longitude);
+               var that = this; //arrrrrrrrgh
+               this.geocoder.geocode({'latLng': latLng}, function(results, status) {
+                var locationDisplay = (results[0].formatted_address);
                 var players = playerList.getSelectedRecords();
                 for(var i = 0; i < players.length; i++){
                     // where is .each when you need it...
-                    players[i].spottedA(this.itemSpotted, location);
+                    players[i].spottedA(that.itemSpotted, {coords: location, display:locationDisplay});
                 }
-                this.hide();
-                this.playersStore.sync();
+                that.hide();
+                that.playersStore.sync();
+               });
+                 
             }, this);
         }, this);
     }
 });
 
-Convoy.views.GameScreenBottomBar = Ext.extend(Ext.Toolbar,
-{
-    dock: 'bottom',
-    xtype: 'toolbar',
-    title: 'CONVOY!',
-    items: [
-        {
-            iconCls: 'bolt',
-            ui:"mask"
-        },
-        {
-            iconCls: 'locate',
-            ui:"mask"
-        }
-    ],
-    initComponent: function() {
-        var that = this;
-        this.items[0].handler = function() {
-            that.loadPlayers();
-        };
-        this.items[1].handler = function() {
-            var loc = prompt("enter location comma separated").split(",");
-            Convoy.FakeLocation.setLocation(loc[0], loc[1]);
-        };
-        Convoy.views.GameScreenBottomBar.superclass.initComponent.call(this);
-            this.playersStore.load();
-
-    },
-
-    loadPlayers: function() {
-
-        if (confirm("start new?")) {
-
-            this.playersStore.proxy.clear();
-            this.playersStore.sync();
-            this.playersStore.load();
-            
-            this.playersStore.add(Ext.ModelMgr.create({name:"fred", id:"fred", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"bob", id:"bob", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"joe", id:"joe", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"freda", id:"freda", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"frank", id:"frank", currentScore: 0}, "Player"));
-            this.playersStore.sync();
-                    
-            this.mainView.fireEvent('playerlistchanged');
-        } 
-    }
-});

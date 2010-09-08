@@ -31,3 +31,5 @@ Convoy.templates.playerSelectListItem=new Ext.XTemplate(
 
 Convoy.templates.playerMainDisplay = new Ext.XTemplate(
             '<tpl for="."><div class="player" id="{id}"><strong>{name}</strong><span>{currentScore}</span></div></tpl>');
+Convoy.templates.historyItem = new Ext.XTemplate(
+            '<tpl for="."><div class="history-item"><strong>{spotted.name}</strong> <br/><span>{when}</span><br/><span>{where.display}</span></div></tpl>');
