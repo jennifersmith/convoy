@@ -86,7 +86,7 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
         var node = this.playerList.findItemFromChild(target);
         if (node) {
             var player = this.playerList.getRecord(node);
-            this.historyPopup.show(player,history);
+            this.historyPopup.show(player);
         }
 
     },
@@ -196,8 +196,8 @@ Convoy.views.PlayerScoreHistory = Ext.extend(Ext.Panel, {
         this.items = [this.list];
         Convoy.views.PlayerScoreHistory.superclass.initComponent.call(this);
     },
-    show: function(player, history){
-
+    show: function(player){
+        var history = player.getHistory();
         this.getDockedItems()[0].setTitle("Previously spotted by " + player.get("name") );
         this.store.loadData(history);
         this.list.doComponentLayout();
