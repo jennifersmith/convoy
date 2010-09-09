@@ -12,8 +12,9 @@ def create_combos
         {
             :id=>'4Set',
             :name=>'Set of four',
-            :evaluation=>'Convoy.Combos.setOf4('category')',
-            :displayTpl=>'Set of four: {category}'
+            :evaluation=>'Convoy.Combos.setOf4("category")',
+            :displayTpl=>'Set of four: {category}',
+            :score=>250
         }
     ]
 end
