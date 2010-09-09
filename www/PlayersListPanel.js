@@ -11,6 +11,7 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
         var that = this;
         this.playerList = new Ext.List({
             store: this.playersStore,
+            height:'100%',
             tpl: Convoy.templates.playerMainDisplay,
             itemSelector: 'div.player',
             singleSelect: false,
@@ -47,13 +48,18 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
             dock: 'top',
             xtype: 'toolbar',
             title: 'Players',
+            layout: {
+                pack: 'right'
+            },
             items: [
                 {
-                    iconCls: 'delete',
+                    iconCls: 'add',
                     ui: "mask",
                     id:'delete-button' ,
                     handler: function() {
-                        that.playersStore.add
+                        var nextId = that.playersStore.getCount() +1;
+                        that.playersStore.add(Ext.ModelMgr.create({name:"Player " + nextId, id:"player" + nextId, currentScore: 0}, "Player"));
+                        that.playersStore.sync();
                     }
                 } ]
         };
