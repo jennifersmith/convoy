@@ -24,20 +24,20 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
             {
                 config: {
                     xtype: 'button',
-                    ui: 'mask',
-                    iconCls: 'delete',
+                    ui:'mask',
+                    iconCls: 'bookmarks',
                     handler:function(sender, event){
-                        that.deletePrompt(event.target);
+                        that.showHistory(event.target);
                     }
-                }  
+                }
             },
             {
                 config: {
                     xtype: 'button',
                     ui:'mask',
-                    iconCls: 'bookmarks',
+                    iconCls: 'compose',
                     handler:function(sender, event){
-                        that.showHistory(event.target);
+                        that.showEdit(event.target);
                     }
                 }
             }
@@ -46,12 +46,22 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
         var toolbar = {
             dock: 'top',
             xtype: 'toolbar',
-            title: 'Players'
+            title: 'Players',
+            items: [
+                {
+                    iconCls: 'delete',
+                    ui: "mask",
+                    id:'delete-button' ,
+                    handler: function() {
+                        that.playersStore.add
+                    }
+                } ]
         };
 
         this.dockedItems = [toolbar];
         this.items = [this.playerList];
         this.historyPopup = new Convoy.views.PlayerScoreHistory({});
+        this.playerEdit = new Convoy.views.PlayerEdit({playersStore : this.playersStore});
 
         Convoy.views.PlayersListPanel.superclass.initComponent.call(this);
         this.ensurePlayers();
@@ -70,27 +80,83 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
         var node = this.playerList.findItemFromChild(target);
         if (node) {
             var player = this.playerList.getRecord(node);
-            var history = player.getHistory(this.spottablesStore);
             this.historyPopup.show(player,history);
         }
 
     },
-    deletePrompt:function (target) {
+    showEdit: function(target){
         var node = this.playerList.findItemFromChild(target);
         if (node) {
-            var record = this.playerList.getRecord(node);
-            if (confirm("Are you sure you want to delete this player?")) {
-                var index = this.playersStore.indexOf(record);
-                alert(index);
-                alert(record.get("name"));
-                this.playersStore.remove(record);
-                this.playersStore.sync();
-                this.playersStore.load();
-
-            }
+            var player = this.playerList.getRecord(node);
+            this.playerEdit.show(player);
         }
+
     }
 });
+
+Convoy.views.PlayerEdit =  Ext.extend(Ext.Panel, {
+    floating: true,
+    modal: true,
+    centered: true,
+    width: 420,
+    height: 300,
+    styleHtmlContent: true,
+
+    initComponent: function(){
+        var that = this; // every time I put this in my code a fairy dies
+        var toolbar = {
+        dock: 'top',
+        xtype: 'toolbar',
+        title: 'Edit player',
+        items: [
+            {
+                iconCls: 'delete',
+                ui: "mask",
+                id:'delete-button' ,
+                handler: function() {
+                    that.hide();
+                }
+            }
+        ]};
+        this.dockedItems = [toolbar];
+        var textField = new Ext.form.TextField(
+                {
+                    xtype: 'textfield',
+                    name : 'name',
+                    label: 'Player name',
+                    required: 'true'
+                }
+        )
+        this.form = new Ext.form.FormPanel({
+            items: [textField]
+        });
+        var saveButton = new Ext.Button({text: "Save"});
+        this.items = [this.form, saveButton];
+        Convoy.views.PlayerEdit.superclass.initComponent.call(this);
+        saveButton.setHandler(this.savePlayer, this);
+
+        textField.on("keyup", this.savePlayerWhenPressEnter, this);
+
+    } ,
+    show: function(player){
+        this.player = player; // ick!
+        this.form.load(player);
+        Convoy.views.PlayerEdit.superclass.show.call(this, 'pop');
+    },
+    savePlayer: function(){
+        this.form.updateModel(this.player);
+        this.playersStore.sync();
+        this.hide();
+    },
+    savePlayerWhenPressEnter : function(sender, e){
+        if(e.browserEvent.keyCode==13){       // enter
+            this.savePlayer();
+        }
+
+    }
+
+});
+
 
 Convoy.views.PlayerScoreHistory = Ext.extend(Ext.Panel, {
     floating: true,
