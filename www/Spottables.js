@@ -16,7 +16,8 @@ Convoy.Urls = function(loadLocalhostUrls){
         }
     }
     return {
-        Data: url("/data")
+        Data: url("/data"),
+        Combos: url("/combos")
     };
 
 }(offline);
