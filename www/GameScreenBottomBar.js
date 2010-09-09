@@ -58,11 +58,10 @@ Convoy.views.GameScreenBottomBar = Ext.extend(Ext.Toolbar,
             this.playersStore.sync();
             this.playersStore.load();
 
-            this.playersStore.add(Ext.ModelMgr.create({name:"fred", id:"fred", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"bob", id:"bob", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"joe", id:"joe", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"freda", id:"freda", currentScore: 0}, "Player"));
-            this.playersStore.add(Ext.ModelMgr.create({name:"frank", id:"frank", currentScore: 0}, "Player"));
+            this.playersStore.add(Ext.ModelMgr.create({name:"Player 1", id:"player1", currentScore: 0}, "Player"));
+            this.playersStore.add(Ext.ModelMgr.create({name:"Player 2", id:"player2", currentScore: 0}, "Player"));
+            this.playersStore.add(Ext.ModelMgr.create({name:"Player 3", id:"player3", currentScore: 0}, "Player"));
+            this.playersStore.add(Ext.ModelMgr.create({name:"Player 4", id:"player4", currentScore: 0}, "Player"));
             this.playersStore.sync();
 
             this.mainView.fireEvent('playerlistchanged');
