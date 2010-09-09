@@ -6,9 +6,9 @@
 Convoy.templates.itemBox=new Ext.XTemplate(
             '<tpl for=".">',
                 '<div class="item-box" id="{id}"  >',
-	                '<span class="name">{name}</span>' ,
-	                '<span class="score">{score}</span>' ,
-					'<img src="{imagePath}" />' ,
+					'<p class="image"><img src="{imagePath}" /></p>' ,
+	                '<p><span class="name">{name}</span>' ,
+	                '<span class="score">{score}</span></p>' ,
                 '</div>',
             '</tpl>',
             '<div class="x-clear"></div>'
