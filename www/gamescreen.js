@@ -273,6 +273,7 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
         ];
 
         Convoy.views.PlayerSelect.superclass.initComponent.call(this);
+        this.playersStore.load();
         playerList.on("selectionchange", function(dataView, selections) {
             if (selections.length) {
                 scoreButton.show();

@@ -53,6 +53,7 @@ Convoy.views.GameScreenBottomBar = Ext.extend(Ext.Toolbar,
 
         if (confirm("start new?")) {
 
+            this.playersStore.load();
             this.playersStore.proxy.clear();
             this.playersStore.sync();
             this.playersStore.load();
