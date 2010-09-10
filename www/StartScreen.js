@@ -1,5 +1,6 @@
 Convoy.views.StartScreen = Ext.extend(Ext.Panel, {
     layout: 'card',
+    cls: 'spash-screen',
     activeItem: 0,
     initComponent: function() {
          var that = this;
