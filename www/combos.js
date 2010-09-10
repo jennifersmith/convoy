@@ -10,24 +10,29 @@ Ext.regModel('Combo', {
 });
 
 Convoy.CreateCombosStore = function(){
-   return new Ext.data.JsonPStore({
-        url: Convoy.Urls.Data,
+
+    return Convoy.CreateSpottablesStore();
+
+   var result = new Ext.data.JsonPStore({
+        url: Convoy.Urls.Combos,
         callbackParam: "callback",
-        root: '.items',
+        root: '.combos',
        reader:{
          type: "json" ,
            root: "combos"
        },
         model: 'Combo'});
+
+    return result;
 };
-//
-//            :id=>'4Set',
-//            :name=>'Set of four',
-//            :evaluation=>'Convoy.Combos.setOf4('category')',
-//            :displayTpl=>'Set of four: {category}'
+// WIP!
 
-Convoy.Combos.Process = function(){
-    var combosStore = Convoy.CreateCombosStore();
+Convoy.Combos = {
+    Process: function(){
+        var combosStore = Convoy.CreateSpottablesStore();
+        combosStore.load();
 
-    alert(combosStore.getCount());
+
+        return combosStore.getAt(0);
+    }
 }

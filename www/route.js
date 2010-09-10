@@ -7,15 +7,17 @@
  */
 
 Convoy.RouteSimulator = function(delay) {
-    this.route = theRoute.slice();
 
     this.start = function() {
-        this.doRoute();
+        if(!this.started){
+            this.started = true;
+            this.route = theRoute.slice();
+            this.doRoute();
+        }
     };
     this.doRoute = function() {
         var current = this.route.shift();
         Convoy.FakeLocation.setLocation(current.lat, current.lng);
-        console.log(current);
         if(this.route.length > 0){
             var that = this;
             this.timeout = setTimeout(function() {
@@ -28,6 +30,7 @@ Convoy.RouteSimulator = function(delay) {
         {
             clearTimeout(this.timeout);
         }
+        this.started = false;
     }
 };
 var theRoute = [

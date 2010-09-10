@@ -70,18 +70,18 @@ Convoy.views.PlayersListPanel = Ext.extend(Ext.Panel, {
         this.playerEdit = new Convoy.views.PlayerEdit({playersStore : this.playersStore});
 
         Convoy.views.PlayersListPanel.superclass.initComponent.call(this);
-        this.ensurePlayers();
+
 
         this.mainView.on('playerlistchanged', function() {
             this.playersStore.load();
             this.playerList.refresh();
         }, this);
 
-    },  
-    ensurePlayers: function() {
-        this.playersStore.load();
+        this.mainView.on("activate", function(){
+            this.playersStore.load();
+        },this) ;
 
-    },
+    }, 
     showHistory: function(target){
         var node = this.playerList.findItemFromChild(target);
         if (node) {

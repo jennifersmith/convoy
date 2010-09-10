@@ -57,7 +57,8 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
         var mapPanel = new Convoy.views.MapPanel(
         {
             height: "50%", width:"100%",
-            id:'map-view'
+            id:'map-view',
+            mainPanel : this
         });
 
         var playersListPanel = new Convoy.views.PlayersListPanel({
@@ -78,9 +79,6 @@ Convoy.views.GameScreen = Ext.extend(Ext.Panel, {
 
 
         Convoy.views.StartScreen.superclass.initComponent.call(this);
-
-
-
 
 
     } 
@@ -118,6 +116,8 @@ Convoy.views.SpottablesPanel = Ext.extend(Ext.Panel, {
         this.spottablesStore.load();
 
 
+
+
     } ,
     itemTapped: function(dataView, index, item, e) {
         var playerSelect = new Convoy.views.PlayerSelect({
@@ -140,10 +140,16 @@ Convoy.views.MapPanel = Ext.extend(Ext.Panel, {
             this.items = [{xtype: "panel", html:"Map not available in offline mode"}];
         } else{
 
-        this.items = [new Convoy.views.Map({height:"100%", width:"100%"})];   
+        var map = new Convoy.views.Map({height:"100%", width:"100%"});
+        this.items = [map];
         }
 
         Convoy.views.MapPanel.superclass.initComponent.call(this);
+
+        this.mainPanel.on("restartJourney", function(){
+
+            map.resetLine();
+        }, this);
     }
 
 });
@@ -170,6 +176,16 @@ Convoy.views.Map = Ext.extend(Ext.Panel, {
             this.marker.setPosition(this.latLng);
         }
         this.addToRoute();
+    },
+    resetLine: function(){
+        if(this.route){
+//            while(this.route.getPath().length>0){
+//                this.route.deleteVertex(0);
+//            }
+            this.route.setMap( null);
+            this.route = null;
+        }
+       
     },
     addToRoute: function(){
       

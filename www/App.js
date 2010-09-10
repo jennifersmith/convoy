@@ -3,7 +3,7 @@ Convoy.App = Ext.extend(Ext.Panel, {
     cls: 'app',
     fullscreen: true,
     layout: 'card',
-    activeItem: 1,
+    activeItem: 0,
     
     initComponent: function() {
         var that = this;
