@@ -1,11 +1,11 @@
-body { background-image:url(../images/thelorrygame/bg.jpg); background-attachment: fixed; }
-.start-button { -webkit-border-radius: 2em; margin: 3em 0; font-size:2em; }
+.start-button { -webkit-border-radius: 2em; margin: 0 auto 1em; font-size:2em; width: 500px; }
 .app { background-repeat: no-repeat; background-position: center top; background-size: 500px 200px; }
-.splash { background:transparent; }
-.screen { background: #092542 url(../images/thelorrygame/stobart.jpg); background-color: #ccc; margin-top: 115px }
+.spash-screen { padding-top: 300px; background-image:url(../images/thelorrygame/bg-splash.jpg); background-attachment: fixed; background-repeat: no-repeat;   }
+.game-screen { background-image:url(../images/thelorrygame/bg.jpg); background-attachment: fixed; }
 .toolbar-textfield input { width: 25em; }
 .toolbar-textfield label { color:white; margin-right: 0.3em; }
 .game-panel { border:1px black solid; }
+
 
 .item-box  { float: left; -webkit-border-radius: 12px; margin: 1em .5em; text-align: center; width: 172px; height: 120px; text-shadow: #000 0 1px 0; color: #9aa7b2; padding: .9em; font-weight: bold; position: relative; }
 .item-box p { text-overflow: ellipsis; overflow: hidden; font-size: 12px;  }
