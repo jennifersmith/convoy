@@ -22,26 +22,25 @@ end
 
 def create_items
     result = [
-        create_item('Sainsbury' , 90, 'Supermarkets'),
-        create_item('Tesco', 95, 'Supermarkets'),
-        create_item('Asda' , 95, 'Supermarkets'),
         create_item('Morrisons', 100, 'Supermarkets'),
+        create_item('Sainsbury' , 90, 'Supermarkets'),
+        create_item('Asda' , 95, 'Supermarkets'),
+        create_item('Tesco', 95, 'Supermarkets'),
 
         create_item('Iceland' , 100, 'Supermarkets'),
         create_item('Waitrose', 110, 'Supermarkets'),
-        create_item('Marks and Spencer' , 110, 'Supermarkets'),
-        create_item('Co-operative', 120, 'Supermarkets'),
+        create_item('co-op', 120, 'Supermarkets'),
+        create_item('M &amp; S' , 110, 'Supermarkets'),
 
 
         create_item('Fowler Welch' , 140, 'Distribution'),
-        create_item('Norman Dentressangle', 160, 'Distribution'),
-        create_item('Christian Salveson' , 160, 'Distribution'),
+        create_item('Norbert Dentressangle', 160, 'Distribution'),
+        create_item('Christian Salvesen' , 160, 'Distribution'),
         create_item('Eddie Stobart', 180, 'Distribution'),
 
-
         create_item('Warburtons' , 200, 'Bread and Milk'),
+        create_item('Wiseman' , 240, 'Bread and Milk') ,  
         create_item('Kingsmill', 220, 'Bread and Milk'),
-        create_item('Robert Wiseman Dairies' , 240, 'Bread and Milk')
 
         ];
 end
