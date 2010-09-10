@@ -16,7 +16,14 @@ body { background-image:url(../images/thelorrygame/bg.jpg); background-attachmen
 
 .item-box  { background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #6e8291), color-stop(2%, #303940), color-stop(50%, #333c43), color-stop(51%, #2c343a), color-stop(100%, #161a1d));
 		color: #fff; }
+
+.player { overflow: hidden; clear: both; } 
+.player .player-name { font-weight:bold; float: left; }
+.player .player-name .score { font-size: .9em; display: block; }
+.player .x-button { float: right;}
+
 .x-tabbar.x-docked-bottom .x-tab.x-tab-active img { background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #cce7ff), color-stop(2%, #3da5ff), color-stop(50%, #42a8ff), color-stop(51%, #33a1ff), color-stop(100%, #0089ff)); }
+
 
 /*.item-box div { background-repeat:no-repeat; background-position: center; width: 300px; height: 200px; float:left; }
 .item-box.x-item-pressed div { background-color: rgba(100, 100, 100, 0.7); border-color: #999; }
@@ -48,5 +55,6 @@ body { background-image:url(../images/thelorrygame/bg.jpg); background-attachmen
 /*}*/
 
 /*.x-spottable-button.x-button-mask.x-button-pressed img {*/
-    /*background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #fff), color-stop(2%, #a4cff4), color-stop(100%, #5fabec));*/
+    /*background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #fff), color-stop(2%, #a4cff4), color-stop(100%, #5fabec));
 }
+*/
