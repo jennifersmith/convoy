@@ -29,7 +29,7 @@ def create_items
 
         create_item('Iceland' , 100, 'Supermarkets'),
         create_item('Waitrose', 110, 'Supermarkets'),
-        create_item('co-operative', 120, 'Supermarkets'),
+        create_item('Co-operative', 120, 'Supermarkets'),
         create_item('Marks and Spencer' , 110, 'Supermarkets'),
 
 

@@ -36,9 +36,9 @@ Convoy.views.StartScreen = Ext.extend(Ext.Panel, {
         Convoy.views.StartScreen.superclass.initComponent.call(this);
     },
     startNewGame: function(){
-        this.playersStore.load();
-        this.playersStore.proxy.clear();
-        this.playersStore.sync();
+        if(window.localStorage){
+            window.localStorage.clear();
+        }
         this.playersStore.load();
 
         this.playersStore.add(Ext.ModelMgr.create({name:"Player 1", id:"player1", currentScore: 0}, "Player"));
