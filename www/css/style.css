@@ -22,6 +22,12 @@ body { background-image:url(../images/thelorrygame/bg.jpg); background-attachmen
 .player .player-name .score { font-size: .9em; display: block; }
 .player .x-button { float: right;}
 
+.player-select .image { width: 188px; height: 72px; overflow: hidden; margin: 0 auto .5em; }
+.player-select .image img { width: 225px; height: 104px; }
+
+.player-select .name { text-align: center; }
+
+
 .x-tabbar.x-docked-bottom .x-tab.x-tab-active img { background-image: -webkit-gradient(linear, 0% 0, 0% 100%, color-stop(0%, #cce7ff), color-stop(2%, #3da5ff), color-stop(50%, #42a8ff), color-stop(51%, #33a1ff), color-stop(100%, #0089ff)); }
 
 
