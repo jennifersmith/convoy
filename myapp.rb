@@ -29,8 +29,8 @@ def create_items
 
         create_item('Iceland' , 100, 'Supermarkets'),
         create_item('Waitrose', 110, 'Supermarkets'),
-        create_item('co-op', 120, 'Supermarkets'),
-        create_item('M &amp; S' , 110, 'Supermarkets'),
+        create_item('co-operative', 120, 'Supermarkets'),
+        create_item('Marks and Spencer' , 110, 'Supermarkets'),
 
 
         create_item('Fowler Welch' , 140, 'Distribution'),
@@ -39,7 +39,7 @@ def create_items
         create_item('Eddie Stobart', 180, 'Distribution'),
 
         create_item('Warburtons' , 200, 'Bread and Milk'),
-        create_item('Wiseman' , 240, 'Bread and Milk') ,  
+        create_item('Robert Wiseman' , 240, 'Bread and Milk') ,  
         create_item('Kingsmill', 220, 'Bread and Milk'),
 
         ];
