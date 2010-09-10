@@ -104,8 +104,8 @@ Convoy.views.PlayerEdit =  Ext.extend(Ext.Panel, {
     floating: true,
     modal: true,
     centered: true,
-    width: 420,
-    height: 300,
+    width: 300,
+    height: 160,
     styleHtmlContent: true,
 
     initComponent: function(){

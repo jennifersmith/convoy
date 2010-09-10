@@ -16,11 +16,10 @@ Convoy.templates.itemBox=new Ext.XTemplate(
 
 Convoy.templates.itemBoxOnPlayerSelect=new Ext.XTemplate(
             '<tpl for=".">',
-                '<div class="item-box-small" >',
-                        '<div style=" background-image:url({imagePath})">' ,
-                '<p class="name">Who spotted {name} (score: {score})?</p>' ,
-                         '</div>',
-                '</div>',
+                '<div class="item-box-small player-select" >',
+					'<p class="image"><img src="{imagePath}" /></p>' ,
+	                '<p class="name">Who spotted <strong>{name}</strong> for {score} points?</p>' ,
+	            '</div>',
             '</tpl>',
             '<div class="x-clear"></div>'
             );

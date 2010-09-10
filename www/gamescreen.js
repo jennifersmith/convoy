@@ -191,7 +191,7 @@ Convoy.views.Map = Ext.extend(Ext.Panel, {
       
         if(!this.route){
              var polyOptions = {
-                strokeColor: '#000000',
+                strokeColor: '#ff0000',
                 strokeOpacity: 1.0,
                 strokeWeight: 3,
                 geodesic: true,
@@ -240,7 +240,7 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
     centered: true,
     width: 320,
     cls: 'player-select',
-    height: 350,
+    height: 405,
     styleHtmlContent: true,
     html: '',
     scroll: 'vertical',
@@ -268,7 +268,7 @@ Convoy.views.PlayerSelect = Ext.extend(Ext.Panel, {
 
 
         var playerList = new Ext.List({
-            maxHeight: 180,
+            maxHeight: 170,
             store: this.playersStore,
             tpl: Convoy.templates.playerSelectListItem,
             itemSelector: 'div.player',
